@@ -57,7 +57,7 @@ class REST
 		*/
 		
 		// Load the cURL spark which this is dependant on
-		$this->_ci->load->spark('curl/1.2.0');
+		$this->_ci->load->spark('curl/1.2.1');
 
 		// If a URL was passed to the library
 		empty($config) OR $this->initialize($config);
@@ -146,6 +146,8 @@ class REST
 
         // We still want the response even if there is an error code over 400
         $this->_ci->curl->option('failonerror', FALSE);
+        
+        
 
         // Call the correct method with parameters
         $this->_ci->curl->{$method}($params);

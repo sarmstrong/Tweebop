@@ -1,7 +1,4 @@
 $(document).ready(function() { 
-
-    
-    
     
     var echo_nest_key = 'WG7HBALBAFPSGYB2N';
     
@@ -21,11 +18,13 @@ $(document).ready(function() {
     
     var artistModel = Backbone.Model.extend({
         
-        url : 'https://api.twitter.com/1/users/lookup.json', 
+        urlRoot: 'index.php/store/artist' , 
+        
+        idAttribute : "screen_name", 
         
         parse : function(response) {
-            
-            return response[0];
+                
+            return response;
             
         }
 
@@ -35,13 +34,16 @@ $(document).ready(function() {
     
     var artistCollection = Backbone.Collection.extend({
         
+        url : 'index.php/store/fetch' ,
+        
        
         model :  artistModel
       
     })
     
-    var artists = new artistCollection(); 
+   
     
+    var artists = new artistCollection(); 
     
     var artistItem = Backbone.View.extend({
         
@@ -57,7 +59,7 @@ $(document).ready(function() {
         
         events : {
             
-           'click a.remove' : 'clear' 
+            'click a.remove' : 'clear' 
             
             
         }, 
@@ -70,17 +72,11 @@ $(document).ready(function() {
             
         } , 
         
-        
-        
         clear : function() { 
             
-            //alert("clear"); 
-        
             this.model.destroy();
             
         }
-        
-        
         
         
     }); 
@@ -93,15 +89,17 @@ $(document).ready(function() {
         
         initialize : function() { 
             
-            //console.log(artists); 
-        
             artists.bind("add" , this.addItem , this)
-        
+            
         }, 
         
-        addItem : function(artist) { 
+        addItem : function(artist) {
             
-            var view = new artistItem({model: artist}); 
+            var view = new artistItem({
+                
+                model: artist
+                
+            }); 
             
             this.$el.append(view.render().el);
         
@@ -129,6 +127,8 @@ $(document).ready(function() {
         }, 
         
         artistLookup : function(e) { 
+            
+            $("#add-new .error p").text(""); 
             
             if (this.input.val() == '') return; 
             
@@ -162,33 +162,50 @@ $(document).ready(function() {
             
             var artist_obj = this.lookup.get('artist'); 
             
+            //console.log(artist_obj);
+            
+            if (artist_obj === undefined) { 
+            
+                $("#add-new .error p").text("We couldn't find the twitter account for this artist. Sorry!");
+                
+                return false;
+            
+            } 
+            
             var twitter_handle = artist_obj.twitter; 
+            
+            if (twitter_handle === undefined) {
+                
+                $("#add-new .error p").text("We couldn't find the twitter account for this artist. Sorry!");
+                
+                return false;
+                
+            }
             
             this.lookup.destroy(); 
             
             var new_artist = new artistModel(); 
             
-            new_artist.fetch({
+            new_artist.save({
                 
-                dataType: 'jsonp' ,
+                screen_name : twitter_handle
+            } , {
                 
-                data : {
+                success: function(model , response) {
                     
-                    screen_name : twitter_handle
-                    
-                } , 
+                    if (response.error !== undefined){
                 
-                success : function() { 
+                        $("#add-new .error p").text(response.error);
                 
-                    artists.add(new_artist);
+                    } else {
+                
+                        artists.add(new_artist);
+                
+                    }
                 
                 }
                 
-            }); 
-            
-             
-            
-            //console.log(artists); 
+            });  
             
         
         }
@@ -198,10 +215,111 @@ $(document).ready(function() {
 
     });
     
+    /*
+     * 
+     * TWITTER OBJECTS
+     * 
+     */
+    
+    var tweet = Backbone.Model.extend({
+        
+        parse: function() { 
+        
+            return response[0]; 
+        
+        }
+        
+    })
+    
+    var tweets = Backbone.Collection.extend({
+        
+        url : '' ,
+        
+        model : tweet
+        
+    })
+    
+    var tweetItem = Backbone.View.extend({
+        
+        tagName : 'li', 
+        
+        template : _.template($("#tweet-item").html()), 
+        
+        initialize: function() { 
+        
+            this.model.bind('destroy' , this.remove , this)
+        
+        }, 
+        
+        
+        render : function() { 
+        
+            this.$el.html(this.template(this.model.toJSON())); 
+        
+        }
+        
+    })
+    
+    var tweetList = Backbone.View.extend({
+        
+        el: $("#tweet-list"), 
+        
+        initialize: function() { 
+            
+            tweets.bind('add' , this.addItem , this) 
+        
+        }, 
+        
+        addItem : function(tweet) { 
+        
+            var view = new tweetItem({
+                
+                model : tweet
+                
+            })
+            
+            this.$el.append(view.render().el)
+        
+        }
+        
+        
+    })
+    
+    
     var list = new artistList(); 
     
-    
     var add = new addArtist(); 
+    
+    $("#tweets").hide(); 
+    
+    $("#add-new").hide(); 
+    
+    artists.fetch({
+        
+        add: true  , 
+    
+        success: function() { 
+        
+            //console.log(artists.length)
+            
+            if (artists.length > 0) {
+                
+                $("#tweets").fadeIn(); 
+                
+            } else {
+                
+                $("#add-new").fadeIn(); 
+                
+            }
+            
+        
+        }
+        
+    }); 
+    
+    
+    
+    
     
     
 

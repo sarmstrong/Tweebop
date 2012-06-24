@@ -4,6 +4,7 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass/reset";
+@import "compass/css3"; 
 
 /********************
 BASIC LAYOUT
@@ -29,6 +30,76 @@ div#wrapper {
 	
 }
 
+header {
+	
+	@include background(linear-gradient(#eee , #fff)); 
+	
+	@include box-shadow(1px 1px 5px rgba(0,0,0,0.3)); 
+	
+	position: relative;
+	
+	z-index: 10;
+	
+	width: 100%; 
+	
+	float: left; 
+	
+	#profile {
+		
+		float: left; 
+		
+		margin-right: 20px; 
+		
+		img , p {
+			
+			float : left; 
+		}
+		
+		img {
+			
+			margin: 10px; 
+			
+			border: 1px solid #ccc; 
+			
+		}
+		
+		p {
+			
+			//text-align: right;
+			
+			margin: 17px 5px 0 0; 
+		}
+		
+	}
+	
+	.action {
+		
+		//width: 100px;
+		
+		//height: 100%;
+		
+		//background: #efefef;
+		
+		position: relative;
+		
+		@include box-sizing(border-box); 
+		
+		margin: 22px 10px 10px ;
+		
+		padding-left: 10px;
+		
+		//border-right: 1px solid #ccc;
+		
+		border-left: 1px solid #ccc;
+		
+		display: block;
+		
+		float: left;
+		
+		
+	}
+	
+}
 
 
 #app-view {
@@ -42,11 +113,15 @@ div#wrapper {
 	
 	width: 200px; 
 	
-	height: 100%;
+	min-height: 100%;
 	
 	float: left;
 	
 	background : #eee;
+	
+	position: relative;
+	
+	z-index: 9;
 	
 	li {
 		
@@ -82,8 +157,6 @@ div#wrapper {
 		
 		.action {
 			
-			
-			
 			padding-top: 5px;
 			
 			color: #aaa;
@@ -118,17 +191,29 @@ body , html {
 	
 	font-family: 'Open Sans' , Arial , Sans-serif;
 	
+	font-size: 16px; 
+	
+}
+
+a {
+	
+	text-decoration: none; 
+	
+	cursor: pointer;
+	
 }
 
 * {
 	
-	font-size: 14px;
+	font-size: 16px;
 	
 }
 
 p {
 	
 	line-height: 1.2em;
+	
+	font-size: .85em;
 	
 }
 
@@ -143,6 +228,18 @@ ul li {
 /********************
 COLOR
 ********************/
+
+body {
+	
+	color: #333;
+	
+}
+
+a {
+	
+	color: #333;
+	
+}
 
 
 
