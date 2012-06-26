@@ -209,6 +209,14 @@ class Welcome extends CI_Controller
 			}
 		}
 	}
+        
+        public function logout() {
+             
+             $this->reset_session(); 
+             
+             redirect(base_url('/'));
+             
+        }
 	
 	/**
 	 * Reset session data

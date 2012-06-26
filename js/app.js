@@ -1,20 +1,5 @@
 $(document).ready(function() { 
     
-    var echo_nest_key = 'WG7HBALBAFPSGYB2N';
-    
-    var echoNestModel = Backbone.Model.extend({
-        
-        url : 'http://developer.echonest.com/api/v4/artist/twitter' , 
-        
-        parse : function(response) { 
-        
-            return response.response; 
-            
-    
-        }
-        
-    })
-    
     
     var artistModel = Backbone.Model.extend({
         
@@ -132,63 +117,12 @@ $(document).ready(function() {
             
             if (this.input.val() == '') return; 
             
-            var echo_artist = new echoNestModel();
-            
-            echo_artist.on('change' , this.getTwitterArtist , this); 
-            
-            this.lookup = echo_artist; 
-            
-            echo_artist.fetch({
-                
-                dataType : 'jsonp' , 
-                
-                data : {
-                    
-                    name : this.input.val() , 
-                    
-                    api_key : echo_nest_key , 
-                    
-                    format : 'jsonp'
-                }
-                
-            }); 
-            
-            
-            return false; 
-            
-        }, 
-        
-        getTwitterArtist : function() { 
-            
-            var artist_obj = this.lookup.get('artist'); 
-            
-            //console.log(artist_obj);
-            
-            if (artist_obj === undefined) { 
-            
-                $("#add-new .error p").text("We couldn't find the twitter account for this artist. Sorry!");
-                
-                return false;
-            
-            } 
-            
-            var twitter_handle = artist_obj.twitter; 
-            
-            if (twitter_handle === undefined) {
-                
-                $("#add-new .error p").text("We couldn't find the twitter account for this artist. Sorry!");
-                
-                return false;
-                
-            }
-            
-            this.lookup.destroy(); 
-            
             var new_artist = new artistModel(); 
             
             new_artist.save({
                 
-                screen_name : twitter_handle
+                'screen_name' : this.input.val()
+                
             } , {
                 
                 success: function(model , response) {
@@ -207,8 +141,85 @@ $(document).ready(function() {
                 
             });  
             
-        
+            
+            
+//            var echo_artist = new echoNestModel();
+//            
+//            echo_artist.on('change' , this.getTwitterArtist , this); 
+//            
+//            this.lookup = echo_artist; 
+//            
+//            echo_artist.fetch({
+//                
+//                dataType : 'jsonp' , 
+//                
+//                data : {
+//                    
+//                    name : this.input.val() , 
+//                    
+//                    api_key : echo_nest_key , 
+//                    
+//                    format : 'jsonp'
+//                }
+//                
+//            }); 
+            
+            
+            return false; 
+            
         }
+        
+//        getTwitterArtist : function() { 
+//            
+//            var artist_obj = this.lookup.get('artist'); 
+//            
+//            //console.log(artist_obj);
+//            
+//            if (artist_obj === undefined) { 
+//            
+//                $("#add-new .error p").text("We couldn't find the twitter account for this artist. Sorry!");
+//                
+//                return false;
+//            
+//            } 
+//            
+//            var twitter_handle = artist_obj.twitter; 
+//            
+//            if (twitter_handle === undefined) {
+//                
+//                $("#add-new .error p").text("We couldn't find the twitter account for this artist. Sorry!");
+//                
+//                return false;
+//                
+//            }
+//            
+//            this.lookup.destroy(); 
+//            
+//            var new_artist = new artistModel(); 
+//            
+//            new_artist.save({
+//                
+//                screen_name : twitter_handle
+//            } , {
+//                
+//                success: function(model , response) {
+//                    
+//                    if (response.error !== undefined){
+//                
+//                        $("#add-new .error p").text(response.error);
+//                
+//                    } else {
+//                
+//                        artists.add(new_artist);
+//                
+//                    }
+//                
+//                }
+//                
+//            });  
+//            
+//        
+//        }
         
        
 
@@ -290,9 +301,19 @@ $(document).ready(function() {
     
     var add = new addArtist(); 
     
-    $("#tweets").hide(); 
+    $("#tweets").hide();   
     
     $("#add-new").hide(); 
+    
+    $("#add-new-button").bind("click" , function() { 
+        
+        //console.log("add"); 
+        
+        $("#tweets").hide();
+    
+        $("#add-new").fadeIn(); 
+
+    })
     
     artists.fetch({
         
@@ -300,7 +321,7 @@ $(document).ready(function() {
     
         success: function() { 
         
-            //console.log(artists.length)
+            console.log(artists.length)
             
             if (artists.length > 0) {
                 

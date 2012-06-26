@@ -22,34 +22,27 @@ class Store extends CI_Controller {
                // If user already logged in
 
                $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'), $this->session->userdata('access_token'), $this->session->userdata('access_token_secret'));
-          } elseif ($this->session->userdata('request_token') && $this->session->userdata('request_token_secret')) {
-
-               // If user in process of authentication
-
-               $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'), $this->session->userdata('request_token'), $this->session->userdata('request_token_secret'));
-          } else {
+               
+               $this->user = $this->session->userdata('twitter_screen_name');
+          
+               
+          }  else {
 
 // Unknown user
-
-               $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'));
-          }
-     }
-
-     public function artist($id = NULL) {
-
-          if ($this->session->userdata('access_token') && $this->session->userdata('access_token_secret')) {
-
-               $user = $this->session->userdata('twitter_screen_name');
-          } else {
-
+                    
                $error = array("error" => "You have to log in before editing anything!!!");
 
                echo json_encode($error);
 
                return false;
+          
+               
           }
+          
+          
+     }
 
-          $this->load->model('feeds');
+     public function artist($id = NULL) {
           
           $this->load->spark('cache/2.0.0');
 
@@ -58,26 +51,46 @@ class Store extends CI_Controller {
           if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'PUT') {
 
                $screen_name = $this->get_post_screen_name();
+          
+               //$screen_name = $id; 
                
-               $params = array("screen_name" => $screen_name, 'twitter_handle' => $user);
-
-               $stored = $this->feeds->insert_artist($params);
-
-               if ($stored === 'success') {
-
-                    $this->cache->delete("feed_" . $user);
-
-                    $tweets = $this->get_screen_name($screen_name);
-
-                    echo json_encode($tweets[0]);
+               $artist_twitter_name = $this->get_screen_name($screen_name);
+               
+               if ( $artist_twitter_name->response->status->code === 0 ) {
+                   
+                    $artist_twitter_name =  $artist_twitter_name->response->artist->twitter;
                     
-               } elseif ($stored === 'fail') {
-
-                    $error = array("error" => "You've already added this artist to your feeds.");
+               } else {
+                    
+                    $message = $artist_twitter_name->response->status->message;
+                    
+                    $error = array("error" => $message );
 
                     echo json_encode($error);
                     
+                    return false;
+                    
                }
+               
+               
+               $params = array('slug' => $this->user . "-tweebop" , "owner_screen_name" => $this->user , "screen_name" => $artist_twitter_name); 
+               
+               $create = $this->twitteroauth->post('lists/members/create' , $params);
+               
+               //var_dump($create); 
+               
+               if (!empty($create->error) ) {
+                     
+                    $error = array("error" => $create->error );
+
+                    echo json_encode($error);
+                    
+                    return false; 
+                    
+               } 
+               
+               
+                    
                
                
           }
@@ -93,6 +106,15 @@ class Store extends CI_Controller {
                $this->cache->delete("feed_" . $user);
                
           }
+          
+          
+          
+          //$lookup = array('slug' => $this->user . "-tweebop" , "owner_screen_name" => $this->user);
+
+          //$list = $this->twitteroauth->get('lists/members' , $lookup);
+               
+          //echo json_encode($list->users);
+          
      }
 
      public function get_post_screen_name() {
@@ -108,56 +130,57 @@ class Store extends CI_Controller {
      }
 
      public function fetch() {
-
-          if ($this->session->userdata('access_token') && $this->session->userdata('access_token_secret')) {
-
-               $user = $this->session->userdata('twitter_screen_name');
-          } else {
-
-               $error = array("error" => "You have to log in before saving anything!!!");
-
-               echo json_encode($error);
-
-               return false;
+          
+          $lookup = array('slug' => $this->user . "-tweebop" , "owner_screen_name" => $this->user);
+          
+          $list = $this->twitteroauth->get('lists/members' , $lookup);
+          
+          if ( ! empty($list->errors) ) {
+               
+               $create_list = array( 'name' => $user . "-tweebop" , 'mode' => 'public' , 'description' => 'A collection of my favorite artists that I created on TweeBop!'); 
+               
+               $auth = $this->twitteroauth->post('lists/create' , $create_list);
+               
+               $list = $this->twitteroauth->get('lists/members' , $lookup);
+               
+               echo json_encode($list->users);
+               
+          } else { 
+               
+               echo json_encode($list->users);
+               
           }
 
-          $this->load->model('feeds');
-
-          $params = array("twitter_handle" => $user);
-
-          $query = $this->feeds->get_feed($params);
-
-          $screen_names = array();
-
-          foreach ($query->result() as $q) {
-
-               $name = $q->screen_name;
-
-               array_push($screen_names , $name); 
-
-          }
-
-          $feed  = $this->get_screen_name(implode(',' , $screen_names)); 
-
-          echo json_encode($feed);
                
      }
 
      public function get_screen_name($screen_name) {
+          
+          $this->config->load('echo_nest'); 
+          
+          $key = $this->config->item('echo_nest_key'); 
+          
+          //echo $key; 
 
           $this->load->spark('restclient/2.1.0');
 
           $this->load->library('rest');
 
           $this->load->spark('cache/2.0.0');
+          
+          //url : 'http://developer.echonest.com/api/v4/artist/twitter' ,
 
-          $this->rest->initialize(array('server' => 'https://api.twitter.com/'));
+          $this->rest->initialize(array('server' => 'http://developer.echonest.com/'));
 
-          $params = "screen_name=" . $screen_name;
+          $params = array("name" => $screen_name , 'api_key' => $this->config->item('echo_nest_key') , 'format' => 'json'); 
 
-          $tweets = $this->cache->library('rest', 'get', array('1/users/lookup.json', $params) , 4320 );
+          $artist = $this->cache->library('rest', 'get', array('api/v4/artist/twitter', $params) , 1 );
+          
+          //var_dump($artist);
 
-          return $tweets;
+          return $artist;   
+          
      }
+     
 
 }

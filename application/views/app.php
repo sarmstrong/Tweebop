@@ -37,9 +37,11 @@
 
                </div>
 
-               <div id="add-new" class='action'><a >Add New</a></div>
+               <div id="add-new-button" class='action'><a >Add New</a></div>
 
-               <div id='see-tweets' class='action'><a >See Some Tweets</a></div>
+               <div id='see-tweets-button' class='action'><a >See Some Tweets</a></div>
+               
+               <div id='see-tweets-button' class='action'><a href="<?php echo base_url() ?>index.php/welcome/logout">Log Out</a></div>
 
 
           </header>
