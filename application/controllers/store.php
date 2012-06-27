@@ -52,13 +52,29 @@ class Store extends CI_Controller {
 
                $screen_name = $this->get_post_screen_name();
           
-               //$screen_name = $id; 
+               $screen_name = $id; 
                
                $artist_twitter_name = $this->get_screen_name($screen_name);
                
+               //var_dump($artist_twitter_name); 
+               
                if ( $artist_twitter_name->response->status->code === 0 ) {
-                   
-                    $artist_twitter_name =  $artist_twitter_name->response->artist->twitter;
+                    
+                    if (empty($artist_twitter_name->response->artist->twitter)) {
+                         
+                         
+                         $error = array("error" => 'We can\'t find that twitter handle, sorry!' );  
+                         
+                         echo json_encode($error);
+                    
+                         return false;
+                         
+                         
+                    } else {
+                         
+                         $artist_twitter_name =  $artist_twitter_name->response->artist->twitter;
+                         
+                    }
                     
                } else {
                     
@@ -71,11 +87,14 @@ class Store extends CI_Controller {
                     return false;
                     
                }
+                
                
                
                $params = array('slug' => $this->user . "-tweebop" , "owner_screen_name" => $this->user , "screen_name" => $artist_twitter_name); 
                
                $create = $this->twitteroauth->post('lists/members/create' , $params);
+               
+               
                
                //var_dump($create); 
                
@@ -87,7 +106,13 @@ class Store extends CI_Controller {
                     
                     return false; 
                     
-               } 
+               } else {
+                    
+                    $profile = $this->get_twitter_user($artist_twitter_name); 
+                    
+                    echo json_encode($profile[0]); 
+                    
+               }
                
                
                     
@@ -97,23 +122,17 @@ class Store extends CI_Controller {
 
           if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
 
-               //$screen_name = $this->get_post_screen_name();
+               $screen_name = $id;
                
-               $params = array("screen_name" => $id, 'twitter_handle' => $user);
+               $params = array('slug' => $this->user . "-tweebop" , "owner_screen_name" => $this->user , "screen_name" => $screen_name); 
+               
+               $destroy = $this->twitteroauth->post('lists/members/destroy' , $params);
 
-               $stored = $this->feeds->delete_artist($params);  
+          //var_dump($destroy);
                
-               $this->cache->delete("feed_" . $user);
                
           }
           
-          
-          
-          //$lookup = array('slug' => $this->user . "-tweebop" , "owner_screen_name" => $this->user);
-
-          //$list = $this->twitteroauth->get('lists/members' , $lookup);
-               
-          //echo json_encode($list->users);
           
      }
 
@@ -168,11 +187,13 @@ class Store extends CI_Controller {
 
           $this->load->spark('cache/2.0.0');
           
+          //var_dump(urldecode($screen_name)); 
+          
           //url : 'http://developer.echonest.com/api/v4/artist/twitter' ,
 
           $this->rest->initialize(array('server' => 'http://developer.echonest.com/'));
 
-          $params = array("name" => $screen_name , 'api_key' => $this->config->item('echo_nest_key') , 'format' => 'json'); 
+          $params = array("name" => urldecode($screen_name) , 'api_key' => $this->config->item('echo_nest_key') , 'format' => 'json'); 
 
           $artist = $this->cache->library('rest', 'get', array('api/v4/artist/twitter', $params) , 1 );
           
@@ -180,6 +201,23 @@ class Store extends CI_Controller {
 
           return $artist;   
           
+     }
+     
+     public function get_twitter_user($screen_name) {
+
+          $this->load->spark('restclient/2.1.0');
+
+          $this->load->library('rest');
+
+          $this->load->spark('cache/2.0.0');
+
+          $this->rest->initialize(array('server' => 'https://api.twitter.com/'));
+
+          $params = "screen_name=" . $screen_name;
+
+          $tweets = $this->cache->library('rest', 'get', array('1/users/lookup.json', $params) , 4320 );
+
+          return $tweets;
      }
      
 

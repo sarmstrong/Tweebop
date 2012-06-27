@@ -58,11 +58,7 @@
 
                <div id='add-new'>
 
-                    <div class='error'>
-
-                         <p></p>
-
-                    </div>
+                    
 
 
                     <form>
@@ -76,6 +72,18 @@
 
 
                     </form>
+                    
+                    <div class='error'>
+
+                         <p> </p>
+
+                    </div>
+                    
+                    <div class='success'>
+
+                         <p> </p>
+
+                    </div>
 
 
                </div>
@@ -107,6 +115,8 @@
           <div class="profile"><img src="<%= profile_image_url %>" /><p><%= name %></p></div>
 
      </script>
+     
+     <input name="twitter-handle" id="twitter-handle" type="hidden" value="<?php echo $user ?>" />
 
 </body>
 

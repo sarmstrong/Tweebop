@@ -14,7 +14,6 @@ $(document).ready(function() {
         }
 
         
-        
     }); 
     
     var artistCollection = Backbone.Collection.extend({
@@ -78,7 +77,11 @@ $(document).ready(function() {
             
         }, 
         
-        addItem : function(artist) {
+        addItem : function(artist , collection , options) {
+            
+            console.log(options);
+            
+            console.log(artist);
             
             var view = new artistItem({
                 
@@ -86,7 +89,17 @@ $(document).ready(function() {
                 
             }); 
             
-            this.$el.append(view.render().el);
+            if (options.at === 0) {
+               
+               this.$el.prepend(view.render().el);
+                
+            } else {
+                
+                this.$el.append(view.render().el);
+                
+            }
+            
+            
         
         }
 
@@ -113,7 +126,9 @@ $(document).ready(function() {
         
         artistLookup : function(e) { 
             
-            $("#add-new .error p").text(""); 
+            $("#add-new .error p").text("");
+            
+            $("#add-new .success p").text(""); 
             
             if (this.input.val() == '') return; 
             
@@ -130,99 +145,28 @@ $(document).ready(function() {
                     if (response.error !== undefined){
                 
                         $("#add-new .error p").text(response.error);
+                        
+                        model.destroy(); 
                 
                     } else {
-                
-                        artists.add(new_artist);
+                        
+                        //console.log(response); 
+                        
+                        artists.add(new_artist , {at : 0});
+                        
+                        $("#add-new .success p").text('"' + new_artist.get('name') + '"' + " is now in you TweeBop list.");
+                        
                 
                     }
                 
                 }
                 
-            });  
-            
-            
-            
-//            var echo_artist = new echoNestModel();
-//            
-//            echo_artist.on('change' , this.getTwitterArtist , this); 
-//            
-//            this.lookup = echo_artist; 
-//            
-//            echo_artist.fetch({
-//                
-//                dataType : 'jsonp' , 
-//                
-//                data : {
-//                    
-//                    name : this.input.val() , 
-//                    
-//                    api_key : echo_nest_key , 
-//                    
-//                    format : 'jsonp'
-//                }
-//                
-//            }); 
+            });   
             
             
             return false; 
             
         }
-        
-//        getTwitterArtist : function() { 
-//            
-//            var artist_obj = this.lookup.get('artist'); 
-//            
-//            //console.log(artist_obj);
-//            
-//            if (artist_obj === undefined) { 
-//            
-//                $("#add-new .error p").text("We couldn't find the twitter account for this artist. Sorry!");
-//                
-//                return false;
-//            
-//            } 
-//            
-//            var twitter_handle = artist_obj.twitter; 
-//            
-//            if (twitter_handle === undefined) {
-//                
-//                $("#add-new .error p").text("We couldn't find the twitter account for this artist. Sorry!");
-//                
-//                return false;
-//                
-//            }
-//            
-//            this.lookup.destroy(); 
-//            
-//            var new_artist = new artistModel(); 
-//            
-//            new_artist.save({
-//                
-//                screen_name : twitter_handle
-//            } , {
-//                
-//                success: function(model , response) {
-//                    
-//                    if (response.error !== undefined){
-//                
-//                        $("#add-new .error p").text(response.error);
-//                
-//                    } else {
-//                
-//                        artists.add(new_artist);
-//                
-//                    }
-//                
-//                }
-//                
-//            });  
-//            
-//        
-//        }
-        
-       
-
 
     });
     
@@ -242,13 +186,16 @@ $(document).ready(function() {
         
     })
     
-    var tweets = Backbone.Collection.extend({
+    var tweetCollection = Backbone.Collection.extend({
         
-        url : '' ,
+        url : 'https://api.twitter.com/1/lists/statuses.json' ,
         
         model : tweet
         
     })
+    
+    var tweets = new tweetCollection(); 
+    
     
     var tweetItem = Backbone.View.extend({
         
@@ -282,6 +229,8 @@ $(document).ready(function() {
         }, 
         
         addItem : function(tweet) { 
+            
+            //console.log(options); 
         
             var view = new tweetItem({
                 
@@ -289,7 +238,9 @@ $(document).ready(function() {
                 
             })
             
-            this.$el.append(view.render().el)
+            
+            
+            this.$el.prepend(view.render().el)
         
         }
         
@@ -315,17 +266,25 @@ $(document).ready(function() {
 
     })
     
+    
+    
     artists.fetch({
         
         add: true  , 
     
         success: function() { 
-        
-            console.log(artists.length)
             
             if (artists.length > 0) {
                 
                 $("#tweets").fadeIn(); 
+                
+                var handle = $("twitter-handle").val(); 
+                
+                tweets.fetch({
+                    
+                    data : {slug : handle + "-tweebop" , owner_screen_name : handle}
+                    
+                })
                 
             } else {
                 
