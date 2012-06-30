@@ -487,7 +487,7 @@ $(document).ready(function() {
             
             //console.log(match); 
 
-            if (count == 0) {
+            if (count === 0) {
                 
                 error.html("<p> Cannot find any results for <strong>'" + this.input.val() + "'</strong>.<br /><em>(Filters are left on till you clear them)!</em></p> "); 
                 
@@ -523,7 +523,7 @@ $(document).ready(function() {
 
                 item.set({hidden: false});
                 
-                 
+                count++; 
 
             } else {
 
