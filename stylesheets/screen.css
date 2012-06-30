@@ -181,39 +181,54 @@ header .action {
   float: left;
 }
 
+/* line 184, ../sass/screen.scss */
+#tweets {
+  position: relative;
+}
+/* line 190, ../sass/screen.scss */
+#tweets > div {
+  width: 30%;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  float: left;
+  padding: 10px;
+  height: 150px;
+}
+
 /********************
 TYPOGRAPHY
 ********************/
-/* line 188, ../sass/screen.scss */
+/* line 210, ../sass/screen.scss */
 body, html {
   height: 100%;
   font-family: 'Open Sans' , Arial , Sans-serif;
   font-size: 16px;
 }
 
-/* line 198, ../sass/screen.scss */
+/* line 220, ../sass/screen.scss */
 a {
   text-decoration: none;
   cursor: pointer;
 }
 
-/* line 206, ../sass/screen.scss */
+/* line 228, ../sass/screen.scss */
 * {
   font-size: 16px;
 }
 
-/* line 212, ../sass/screen.scss */
+/* line 234, ../sass/screen.scss */
 p {
   line-height: 1.2em;
   font-size: .85em;
 }
 
-/* line 220, ../sass/screen.scss */
+/* line 242, ../sass/screen.scss */
 ul li {
   font-size: 1em;
 }
 
-/* line 226, ../sass/screen.scss */
+/* line 248, ../sass/screen.scss */
 .action {
   font-size: .85em;
 }
@@ -221,12 +236,17 @@ ul li {
 /********************
 COLOR
 ********************/
-/* line 232, ../sass/screen.scss */
+/* line 254, ../sass/screen.scss */
 body {
   color: #333;
 }
 
-/* line 238, ../sass/screen.scss */
+/* line 260, ../sass/screen.scss */
 a {
   color: #333;
+}
+
+/* line 266, ../sass/screen.scss */
+.active {
+  background: #0094C2;
 }

@@ -181,6 +181,28 @@ header {
 	
 }
 
+#tweets {
+	
+	position: relative;
+	
+	
+	
+	> div {
+		
+		width: 30%;
+		
+		@include box-sizing(content-box); 
+		
+		float: left;
+		
+		padding: 10px;
+		
+		height: 150px;
+		
+	}
+	
+}
+
 /********************
 TYPOGRAPHY
 ********************/
@@ -238,6 +260,12 @@ body {
 a {
 	
 	color: #333;
+	
+}
+
+.active {
+	
+	background: #0094C2;
 	
 }
 
