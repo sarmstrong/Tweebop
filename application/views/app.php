@@ -43,9 +43,17 @@
 
                <div id='logout' class='action'><a href="<?php echo base_url() ?>index.php/welcome/logout">Log Out</a></div>
 
-               <div id='tweet-search' class="action"  >
+               <div id='tweet-filter' class="action"  >
 
-                    <input type="text" id="tweet-search-query" val="" />
+                    <input type="text" id="tweet-filter-query" value="" />
+                    
+                    <input type='button' class="clear" value="Clear" />
+
+               </div>
+               
+               <div id='list-count' class="action"  >
+
+                    <p>Loaded: <span> </span></p>
 
                </div>
 
@@ -57,6 +65,7 @@
                <div id='artist-search'>
 
                     <input type="text" id="artists-search-query" val="" />
+                    
 
                </div>
 
@@ -81,7 +90,7 @@
 
                          <input type='submit' id='artist-lookup' value="Add Artist" />
 
-
+                         
 
                     </form>
 

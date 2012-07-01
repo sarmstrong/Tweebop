@@ -88,8 +88,6 @@ $(document).ready(function() {
                 
                     item.save({active : false })
                     
-                    //console.log(item.get("id")); 
-                    
                 }
             
             });
@@ -263,7 +261,19 @@ $(document).ready(function() {
             
                 this.page = 1; 
             
-            });
+            }); 
+            
+            this.on("add" , function(item) { 
+                
+                if (this.search_filter !== '' && this.search_filter !== undefined) {
+                    
+                    filter.single(item , this.search_filter , 'text'); 
+                    
+                }
+                
+                $('#list-count span').text(this.length);
+
+            })
            
         
         }, 
@@ -304,7 +314,7 @@ $(document).ready(function() {
 
                 dataType: 'jsonp',
 
-                data : {screen_name : this.active_artist , page : this.page}
+                data : {screen_name : this.active_artist , page : this.page} 
                     
             })
     
@@ -324,7 +334,7 @@ $(document).ready(function() {
             
             var handle = $("#twitter-handle").val(); 
                 
-            tweets.fetch({
+            this.fetch({
                     
                 add: true , 
                     
@@ -369,6 +379,8 @@ $(document).ready(function() {
         
             this.$el.html(this.template(this.model.toJSON())); 
             
+            this.filter(); 
+            
             return this;
         
         }
@@ -394,16 +406,16 @@ $(document).ready(function() {
                 model : tweet
                 
             })
+                
+            this.$el.append(view.render().el);
             
             if (tweets.search_filter !== undefined && tweets.search_filter !== '') {
                 
-                
-                
-                
-            } else {
-                
-                this.$el.append(view.render().el);
-                
+                if (tweet.get('hidden') === false) {
+                    
+                    $("#twitter-feed .error").hide(); 
+                    
+                }
                 
             }
         
@@ -456,40 +468,41 @@ $(document).ready(function() {
     
     var tweetSearch = Backbone.View.extend({
         
-        el : $("#tweet-search") , 
+        el : $("#tweet-filter") , 
         
         initialize : function() { 
         
-           this.input = $("#tweet-search-query");
+           this.input = $("#tweet-filter-query"); 
+           
+           
+           
         }, 
         
         events : {
             
-            'keypress input' : 'searchTweets'
+            'keypress input' : 'filterTweets' ,
+            
+            'click .clear' : 'clearFilter'
             
         } , 
         
-        searchTweets : function(e) {
-            
-            
-            
-            console.log(e.keyCode);
+        filterTweets : function(e) {
             
             if (e.keyCode != 13) return;
             
-            var count = search(tweets, this.input.val() , 'text');
+            var count = filter.group(tweets, this.input.val() , 'text');
             
             var error = $("#twitter-feed .error"); 
             
             tweets.search_filter = this.input.val(); 
             
-            ///console.log(error); 
-            
-            //console.log(match); 
+            console.log(count); 
 
             if (count === 0) {
                 
                 error.html("<p> Cannot find any results for <strong>'" + this.input.val() + "'</strong>.<br /><em>(Filters are left on till you clear them)!</em></p> "); 
+                
+                error.show();
                 
             } else {
                 
@@ -497,9 +510,35 @@ $(document).ready(function() {
                 
             }
             
+        }, 
+        
+        clearFilter : function() { 
+        
+            this.input.val(''); 
+            
+            filter.group(tweets , '' , 'text')
+        
         }
         
     })
+    
+//    var loadedTweets = Backbone.View.extend({
+//        
+//        el : '#list-count span', 
+//        
+//        initialize : function() {
+//            
+//            tweets.bind("add" , this.recalc , this)
+//            
+//        }, 
+//        
+//        recalc : function() { 
+//        
+//            this.$el.text(tweets.length)
+//        
+//        }
+//        
+//    })
     
    
     
@@ -509,13 +548,33 @@ $(document).ready(function() {
      * 
      */
     
-    function search (collection , search_string , match_field) { 
-        
-        var count = 0; 
+    var filter = { 
+    
+        group : function(collection , search_string , match_field) {
             
-        collection.each( function(item) {
-
+            var count = 0; 
+            
+            var search = this; 
+            
+            collection.each( function(item) {
+                
+                var inc = search.single(item , search_string , match_field); 
+                
+                count += inc;  
+                
+            })
+            
+            return count; 
+        
+        } , 
+        
+        single : function(item , search_string , match_field) {
+            
             var exp = new RegExp(search_string , 'ig'); 
+            
+            //console.log(item); 
+            
+            //console.log(search_string);
 
             var match = item.get(match_field).match(exp); 
 
@@ -523,67 +582,21 @@ $(document).ready(function() {
 
                 item.set({hidden: false});
                 
-                count++; 
+                return 1;  
 
             } else {
 
                 item.set({hidden: true});
                 
+                return 0; 
                 
 
             }
-           
-
-        })
+            
+        }
         
-        return count; 
-    }
     
-//    var search = { 
-//    
-//        group : function(collection , search_string , match_field) {
-//            
-//            var count = 0; 
-//            
-//            var search = this; 
-//            
-//            collection.each( function(item) {
-//                
-//                var inc = search.single(item , search_string , match_field); 
-//                
-//                count += inc;  
-//                
-//            })
-//            
-//            return count; 
-//        
-//        } , 
-//        
-//        single : function(view , search_string , match_field) {
-//            
-//            var exp = new RegExp(search_string , 'ig'); 
-//
-//            var match = item.get(match_field).match(exp); 
-//
-//            if (match !== null ) {
-//
-//                item.set({hidden: false});
-//                
-//                return 1;  
-//
-//            } else {
-//
-//                item.set({hidden: true});
-//                
-//                return 0; 
-//                
-//
-//            }
-//            
-//        }
-//        
-//    
-//    }
+    }
     
     
     
@@ -602,6 +615,8 @@ $(document).ready(function() {
     var artist_search = new artistSearch();
     
     var tweet_search = new tweetSearch(); 
+    
+    //var count = new loadedTweets(); 
     
     /*
      * 
@@ -631,6 +646,8 @@ $(document).ready(function() {
         
         
     })
+    
+    
     
     $("#next").bind("click" , function() { 
     
