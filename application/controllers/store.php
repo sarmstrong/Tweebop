@@ -220,5 +220,68 @@ class Store extends CI_Controller {
           return $tweets;
      }
      
+     public function library() { 
+          
+          $this->load->helper('url'); 
+          
+          $this->load->helper('xml'); 
+          
+          //$path = file_get_contents(base_url() . '/docs/library.xml' , "SimpleXMLElement"); 
+          
+          if (empty($_GET['qqfile'])) {
+               
+               $error = array("error" => "There was an error in uploading this file or you are accessing this page in an unconventional way. "); 
+               
+               return json_encode($error); 
+               
+          } ; 
+          
+          
+          
+          $path = file_get_contents("php://input", "r");
+          
+          $l = simplexml_load_string($path);
+          
+          $artists = array(); 
+          
+          
+          
+          foreach ($l->dict->dict->dict as $track){
+               
+               preg_match_all("/<key>Artist<\/key><.*>(.*)<\/.*>/", $track->asXML(), $match);
+               
+               
+               foreach ($match[1] as $k => $v ) {
+                    
+                    
+                    if (!empty($v)) {
+                         
+                         if (!isset($artists['artists'][$v])) {
+                              
+                              $artists['artists'][$v] = true;
+                              
+                         }
+                         
+                            
+                         
+                    }
+                    
+                    
+               }
+               
+                        
+          }
+          
+          
+          $artists['total'] = count($artists['artists']);
+          
+          $artists['success'] = true; 
+          
+          echo json_encode($artists);
+          
+          
+          
+     }
+     
 
 }

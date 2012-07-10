@@ -5,6 +5,9 @@
 
 @import "compass/reset";
 @import "compass/css3"; 
+@import "modular-scale";
+
+$gutters : 15px; 
 
 /********************
 BASIC LAYOUT
@@ -203,9 +206,37 @@ header {
 	
 }
 
+#results {
+	
+	h3 {
+		
+		margin-bottom: $gutters;
+		
+	}
+	
+	div.found {
+		
+		width: 25%;
+		
+		float: left;
+		
+		h5 {
+			
+			margin-bottom: $gutters;
+			
+		}
+		
+		
+	}
+	
+	
+}
+
 /********************
 TYPOGRAPHY
 ********************/
+
+@include modular-scale-classes(6, font-size , 'scale' , 1em , $major-second);
 
 body , html {
 	
@@ -216,6 +247,13 @@ body , html {
 	font-size: 16px; 
 	
 }
+
+h1 {@extend .scale-6}
+h2 {@extend .scale-5}
+h3 {@extend .scale-4}
+h4 {@extend .scale-3}
+h5 {@extend .scale-2}
+h6 {@extend .scale-1}
 
 a {
 	

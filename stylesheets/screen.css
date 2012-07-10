@@ -70,12 +70,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 /********************
 BASIC LAYOUT
 ********************/
-/* line 13, ../sass/screen.scss */
+/* line 16, ../sass/screen.scss */
 body, html {
   height: 100%;
 }
 
-/* line 21, ../sass/screen.scss */
+/* line 24, ../sass/screen.scss */
 div#wrapper {
   width: 100%;
   margin: 0 auto;
@@ -83,7 +83,7 @@ div#wrapper {
   height: 100%;
 }
 
-/* line 33, ../sass/screen.scss */
+/* line 36, ../sass/screen.scss */
 header {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #eeeeee), color-stop(100%, #ffffff));
   background: -webkit-linear-gradient(#eeeeee, #ffffff);
@@ -99,25 +99,25 @@ header {
   width: 100%;
   float: left;
 }
-/* line 47, ../sass/screen.scss */
+/* line 50, ../sass/screen.scss */
 header #profile {
   float: left;
   margin-right: 20px;
 }
-/* line 53, ../sass/screen.scss */
+/* line 56, ../sass/screen.scss */
 header #profile img, header #profile p {
   float: left;
 }
-/* line 58, ../sass/screen.scss */
+/* line 61, ../sass/screen.scss */
 header #profile img {
   margin: 10px;
   border: 1px solid #ccc;
 }
-/* line 66, ../sass/screen.scss */
+/* line 69, ../sass/screen.scss */
 header #profile p {
   margin: 17px 5px 0 0;
 }
-/* line 75, ../sass/screen.scss */
+/* line 78, ../sass/screen.scss */
 header .action {
   position: relative;
   -webkit-box-sizing: border-box;
@@ -130,13 +130,13 @@ header .action {
   float: left;
 }
 
-/* line 105, ../sass/screen.scss */
+/* line 108, ../sass/screen.scss */
 #app-view {
   width: 100%;
   height: 100%;
 }
 
-/* line 112, ../sass/screen.scss */
+/* line 115, ../sass/screen.scss */
 #side-panel {
   width: 200px;
   min-height: 100%;
@@ -145,7 +145,7 @@ header .action {
   position: relative;
   z-index: 9;
 }
-/* line 126, ../sass/screen.scss */
+/* line 129, ../sass/screen.scss */
 #side-panel li {
   width: 180px;
   padding: 10px;
@@ -153,27 +153,27 @@ header .action {
   margin: 0;
   float: left;
 }
-/* line 138, ../sass/screen.scss */
+/* line 141, ../sass/screen.scss */
 #side-panel li .thumb, #side-panel li .content {
   float: left;
 }
-/* line 144, ../sass/screen.scss */
+/* line 147, ../sass/screen.scss */
 #side-panel li .thumb {
   width: 60px;
   height: 50px;
 }
-/* line 152, ../sass/screen.scss */
+/* line 155, ../sass/screen.scss */
 #side-panel li .content {
   width: 100px;
 }
-/* line 158, ../sass/screen.scss */
+/* line 161, ../sass/screen.scss */
 #side-panel li .action {
   padding-top: 5px;
   color: #aaa;
   cursor: pointer;
 }
 
-/* line 172, ../sass/screen.scss */
+/* line 175, ../sass/screen.scss */
 #content-panel {
   width: 900px;
   padding: 20px;
@@ -181,11 +181,11 @@ header .action {
   float: left;
 }
 
-/* line 184, ../sass/screen.scss */
+/* line 187, ../sass/screen.scss */
 #tweets {
   position: relative;
 }
-/* line 190, ../sass/screen.scss */
+/* line 193, ../sass/screen.scss */
 #tweets > div {
   width: 30%;
   -webkit-box-sizing: content-box;
@@ -196,39 +196,88 @@ header .action {
   height: 150px;
 }
 
+/* line 211, ../sass/screen.scss */
+#results h3 {
+  margin-bottom: 15px;
+}
+/* line 217, ../sass/screen.scss */
+#results div.found {
+  width: 25%;
+  float: left;
+}
+/* line 223, ../sass/screen.scss */
+#results div.found h5 {
+  margin-bottom: 15px;
+}
+
 /********************
 TYPOGRAPHY
 ********************/
-/* line 210, ../sass/screen.scss */
+/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
+.scale-0 {
+  font-size: 1em;
+}
+
+/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
+.scale-1, h6 {
+  font-size: 1.125em;
+}
+
+/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
+.scale-2, h5 {
+  font-size: 1.266em;
+}
+
+/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
+.scale-3, h4 {
+  font-size: 1.424em;
+}
+
+/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
+.scale-4, h3 {
+  font-size: 1.602em;
+}
+
+/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
+.scale-5, h2 {
+  font-size: 1.802em;
+}
+
+/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
+.scale-6, h1 {
+  font-size: 2.027em;
+}
+
+/* line 241, ../sass/screen.scss */
 body, html {
   height: 100%;
   font-family: 'Open Sans' , Arial , Sans-serif;
   font-size: 16px;
 }
 
-/* line 220, ../sass/screen.scss */
+/* line 258, ../sass/screen.scss */
 a {
   text-decoration: none;
   cursor: pointer;
 }
 
-/* line 228, ../sass/screen.scss */
+/* line 266, ../sass/screen.scss */
 * {
   font-size: 16px;
 }
 
-/* line 234, ../sass/screen.scss */
+/* line 272, ../sass/screen.scss */
 p {
   line-height: 1.2em;
   font-size: .85em;
 }
 
-/* line 242, ../sass/screen.scss */
+/* line 280, ../sass/screen.scss */
 ul li {
   font-size: 1em;
 }
 
-/* line 248, ../sass/screen.scss */
+/* line 286, ../sass/screen.scss */
 .action {
   font-size: .85em;
 }
@@ -236,17 +285,17 @@ ul li {
 /********************
 COLOR
 ********************/
-/* line 254, ../sass/screen.scss */
+/* line 292, ../sass/screen.scss */
 body {
   color: #333;
 }
 
-/* line 260, ../sass/screen.scss */
+/* line 298, ../sass/screen.scss */
 a {
   color: #333;
 }
 
-/* line 266, ../sass/screen.scss */
+/* line 304, ../sass/screen.scss */
 .active {
   background: #0094C2;
 }

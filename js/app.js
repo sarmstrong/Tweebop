@@ -1,5 +1,11 @@
 $(document).ready(function() { 
     
+    /*
+     * 
+     * ARTIST OBJECTS
+     * 
+     */
+    
     
     var artistModel = Backbone.Model.extend({
         
@@ -29,9 +35,9 @@ $(document).ready(function() {
        
         model :  artistModel
       
-    })
+    }); 
     
-   
+    
     
     artists = new artistCollection(); 
     
@@ -220,6 +226,10 @@ $(document).ready(function() {
         }
 
     });
+    
+    
+    
+   
     
     /*
      * 
@@ -433,8 +443,144 @@ $(document).ready(function() {
     })
     
     /*
+     *
+     * File Uploader
+     *
+     */
+    
+    var itunesUpload = Backbone.View.extend({
+        
+        el : $("#library-upload") , 
+        
+        uploader : null, 
+        
+        artist_queue : null, 
+        
+        queue_inc : 0,
+        
+        
+        initialize : function() {  
+            
+            this.$el.find('#results').hide(); 
+
+        } , 
+        
+        /// SCOPE FOR UPLOADER PROPERTIES ARE IN THE UPLOADER SCOPE
+        
+         
+
+        initQueue : function (json) { 
+            
+            queue_inc = 0; 
+        
+            this.artists_queue = _.keys(json.artists);
+            
+            
+            if (this.artists_queue == 0 ) {
+                
+            }   else {
+                
+                this.$el.find('#results').fadeIn(); 
+                
+                    this.appendArtist(this.artists_queue[this.queue_inc]); 
+                
+            }
+            
+            
+        
+        } , 
+        
+        appendArtist : function(a) { 
+           
+            var new_artist = new artistModel(); 
+            
+            new_artist.save({
+                
+                'screen_name' : a
+                
+            } , {
+                
+                success: function(model , response) {
+                    
+                    if (response.error !== undefined){
+                        
+                        $(".not-found").append('<li>' + response.error + '</li>');
+                        
+                        model.destroy(); 
+                        
+                        
+                
+                    } else {
+                        
+                        artists.add(new_artist , {at : 0});
+                        
+                        $(".found").append('<li>' + new_artist.get('name')  + '</li>');
+                        
+                    }
+                
+                }
+                
+            });   
+            
+            this.queue_inc++; 
+            
+            if (this.queue_inc < this.artists_queue.length) {
+                
+                this.appendArtist(this.artists_queue[this.queue_inc]); 
+                
+            }
+            
+            
+            //return false; 
+            
+        }
+        
+        
+        
+        
+        
+    })
+    
+    var itunes_upload = new itunesUpload();
+    
+    /// Third Paty Uploader Object
+    
+    var file_uploader = new qq.FileUploader({
+                
+        element : $("#file-uploader")[0], 
+
+        allowedExtensions : ['xml'], 
+
+        action: 'index.php/store/library' ,
+
+        //debug: true , 
+        
+        onComplete : function (id, filename , json) { 
+            
+            itunes_upload.initQueue(json);
+            
+        },  
+
+        showMessage : function (message) { 
+            
+            
+            itunes_upload.$el.find('.error').text(message); 
+            
+        
+        }, 
+
+        onSubmit : function (id , filename) { 
+            
+            itunes_upload.$el.find('.error').text(''); 
+            
+        }
+
+    });
+    
+    
+    /*
      * 
-     * UI Components
+     * Search Components
      * 
      */
     
@@ -521,25 +667,6 @@ $(document).ready(function() {
         }
         
     })
-    
-//    var loadedTweets = Backbone.View.extend({
-//        
-//        el : '#list-count span', 
-//        
-//        initialize : function() {
-//            
-//            tweets.bind("add" , this.recalc , this)
-//            
-//        }, 
-//        
-//        recalc : function() { 
-//        
-//            this.$el.text(tweets.length)
-//        
-//        }
-//        
-//    })
-    
    
     
     /*
@@ -599,7 +726,6 @@ $(document).ready(function() {
     }
     
     
-    
     /*
      * 
      * Create Initial View Object
@@ -614,7 +740,9 @@ $(document).ready(function() {
     
     var artist_search = new artistSearch();
     
-    var tweet_search = new tweetSearch(); 
+    var tweet_search = new tweetSearch();
+    
+     
     
     //var count = new loadedTweets(); 
     
@@ -626,28 +754,21 @@ $(document).ready(function() {
      */
     
     
-    $("#tweets").hide();   
+    $(".panel").hide();   
     
-    $("#add-new").hide(); 
+    $(".panel-button").each(function() { 
     
-    $("#add-new-button").bind("click" , function() { 
+        $(this).bind("click" , function() { 
         
-        $("#twitter-feed").hide();
+            var panel = $(this).attr('rel'); 
+            
+            $(".panel").hide(); 
+            
+            $(panel).fadeIn(); 
+            
+        })
     
-        $("#add-new").fadeIn(); 
-
-    })
-    
-    $("#see-tweets-button").bind("click" , function() {
-        
-        $("#twitter-feed").fadeIn();
-    
-        $("#add-new").hide(); 
-        
-        
-    })
-    
-    
+    }) 
     
     $("#next").bind("click" , function() { 
     
@@ -672,7 +793,9 @@ $(document).ready(function() {
             
             if (artists.length > 0) {
                 
-                $("#tweets").fadeIn(); 
+                //$("#twitter-feed").fadeIn(); 
+                
+                $("#library-upload").fadeIn();
                 
                 tweets.getListTimeline(); 
                 
@@ -680,6 +803,8 @@ $(document).ready(function() {
             } else {
                 
                 $("#add-new").fadeIn(); 
+                
+                
                 
             }
             

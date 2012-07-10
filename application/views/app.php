@@ -5,6 +5,8 @@
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
           <link href="stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
+          
+          <link href="stylesheets/fileuploader.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
           <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
@@ -14,9 +16,9 @@
 
      <script type='text/javascript' src='js/backbone-min.js'></script>
 
-
      <script type='text/javascript' src='js/backbone.localStorage-min.js'></script>
 
+     <script type="text/javascript" src='js/fileuploader'></script>
 
      <script type="text/javascript" src='js/app.js'></script>
 
@@ -37,20 +39,22 @@
 
                </div>
 
-               <div id="add-new-button" class='action'><a>Add New</a></div>
+               <div id="add-new-button" class='action panel-button' rel="#add-new" ><a>Add New</a></div>
 
-               <div id='see-tweets-button' class='action'><a >See Some Tweets</a></div>
+               <div id='add-itunes-library' class='action panel-button' rel='#library-upload'><a >Upload iTunes Library</a></div>
+
+               <div id='see-tweets-button' class='action panel-button' rel='#twitter-feed'><a >See Some Tweets</a></div>
 
                <div id='logout' class='action'><a href="<?php echo base_url() ?>index.php/welcome/logout">Log Out</a></div>
 
                <div id='tweet-filter' class="action"  >
 
                     <input type="text" id="tweet-filter-query" value="" />
-                    
+
                     <input type='button' class="clear" value="Clear" />
 
                </div>
-               
+
                <div id='list-count' class="action"  >
 
                     <p>Loaded: <span> </span></p>
@@ -65,7 +69,7 @@
                <div id='artist-search'>
 
                     <input type="text" id="artists-search-query" val="" />
-                    
+
 
                </div>
 
@@ -77,22 +81,10 @@
 
           <section id='content-panel'>
 
-               <div id='add-new'>
+               <!-- Add New Form -->
 
+               <div id='add-new' class="panel" >
 
-
-
-                    <form>
-
-                         <label for='artist-txt'>Add an artist to your feed</label>
-
-                         <input type='text' name='artist-query' id='artist-query' />
-
-                         <input type='submit' id='artist-lookup' value="Add Artist" />
-
-                         
-
-                    </form>
 
                     <div class='error'>
 
@@ -106,15 +98,81 @@
 
                     </div>
 
+                    <form>
+
+                         <label for='artist-txt'>Add an artist to your feed</label>
+
+                         <input type='text' name='artist-query' id='artist-query' />
+
+                         <input type='submit' id='artist-lookup' value="Add Artist" />
+
+
+
+                    </form>
+
+                    
+
 
                </div>
 
+               <!-- Library Upload -->
 
-               <div id='twitter-feed'>
+               <div id="library-upload" class="panel" >
                     
+                    <div class='error'>
+
+                         <p> </p>
+
+                    </div>
+                    
+                    <div id="file-uploader">
+                          
+                         <noscript>
+                         
+                              <p>Please enable JavaScript to use file uploader.</p>
+                              
+                              <!-- or put a simple form for upload here -->
+                              
+                         </noscript>  
+                         
+                    </div>
+                    
+                    <div id='results'>
+                         
+                         <h3>Library Progress</h3>
+                         
+                         <div class="found">
+                              
+                              <h4>Added</h4>
+                              
+                              <ul>
+                                   
+                              </ul>
+                              
+                         </div>
+                         
+                         <div class="not-found">
+                              
+                              <h5>Not-Added</h5>
+                              
+                              <ul>
+                                   
+                                   
+                              </ul>
+                              
+                         </div> 
+
+                    </div>
+
+               </div>
+               
+               <!-- Twitter Feed -->
+
+               <div id='twitter-feed' class="panel" >
+
                     <div class="error">
-                         
-                         
+
+
                     </div>
 
                     <div id='tweets'>
