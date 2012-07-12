@@ -41,7 +41,7 @@
 
                <div id="add-new-button" class='action panel-button' rel="#add-new" ><a>Add New</a></div>
 
-               <div id='add-itunes-library' class='action panel-button' rel='#library-upload'><a >Upload iTunes Library</a></div>
+               <div id='add-itunes-library' class='action panel-button' rel='#library-upload'><a >Upload iTunes Library (Beta)</a></div>
 
                <div id='see-tweets-button' class='action panel-button' rel='#twitter-feed'><a >See Some Tweets</a></div>
 

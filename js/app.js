@@ -134,7 +134,9 @@ $(document).ready(function() {
         
         initialize : function() { 
             
-            artists.bind("add" , this.addItem , this)
+            artists.bind("add" , this.addItem , this); 
+            
+            
             
         }, 
         
@@ -452,11 +454,6 @@ $(document).ready(function() {
         
         el : $("#library-upload") , 
         
-        uploader : null, 
-        
-        artist_queue : null, 
-        
-        queue_inc : 0,
         
         
         initialize : function() {  
@@ -467,76 +464,31 @@ $(document).ready(function() {
         
         /// SCOPE FOR UPLOADER PROPERTIES ARE IN THE UPLOADER SCOPE
         
-         
+        updateResults : function (json) { 
+            
+            console.log(json);
+            
+            if (json.twitter_success === true) {
+                
+                this.$el.find('#results').show();
+                
+                $(".not-found").append(json.not_found);
+            
+                $('.found').append(json.found);
+                
+                $("#artist_list").html(""); 
+                
+                fetchArtists();  
+                
+            } else {
+                
+                this.$el.find('.error').html(json.twitter_error);
+                
+            }
 
-        initQueue : function (json) { 
-            
-            queue_inc = 0; 
+                      
         
-            this.artists_queue = _.keys(json.artists);
-            
-            
-            if (this.artists_queue == 0 ) {
-                
-            }   else {
-                
-                this.$el.find('#results').fadeIn(); 
-                
-                    this.appendArtist(this.artists_queue[this.queue_inc]); 
-                
-            }
-            
-            
-        
-        } , 
-        
-        appendArtist : function(a) { 
-           
-            var new_artist = new artistModel(); 
-            
-            new_artist.save({
-                
-                'screen_name' : a
-                
-            } , {
-                
-                success: function(model , response) {
-                    
-                    if (response.error !== undefined){
-                        
-                        $(".not-found").append('<li>' + response.error + '</li>');
-                        
-                        model.destroy(); 
-                        
-                        
-                
-                    } else {
-                        
-                        artists.add(new_artist , {at : 0});
-                        
-                        $(".found").append('<li>' + new_artist.get('name')  + '</li>');
-                        
-                    }
-                
-                }
-                
-            });   
-            
-            this.queue_inc++; 
-            
-            if (this.queue_inc < this.artists_queue.length) {
-                
-                this.appendArtist(this.artists_queue[this.queue_inc]); 
-                
-            }
-            
-            
-            //return false; 
-            
-        }
-        
-        
-        
+        }  
         
         
     })
@@ -557,7 +509,7 @@ $(document).ready(function() {
         
         onComplete : function (id, filename , json) { 
             
-            itunes_upload.initQueue(json);
+            itunes_upload.updateResults(json);
             
         },  
 
@@ -606,7 +558,7 @@ $(document).ready(function() {
             
             if (e.keyCode !== 13) return;
             
-            search(artists , this.input.val() , 'name'); 
+            filter.group(artists , this.input.val() , 'name'); 
             
         }
         
@@ -785,33 +737,40 @@ $(document).ready(function() {
      */
     
     
-    artists.fetch({
+    fetchArtists(); 
+    
+    function fetchArtists() { 
+        
+        artists.fetch({
         
         add: true  , 
     
         success: function() { 
             
-            if (artists.length > 0) {
-                
-                //$("#twitter-feed").fadeIn(); 
-                
-                $("#library-upload").fadeIn();
-                
-                tweets.getListTimeline(); 
-                
-                
-            } else {
-                
-                $("#add-new").fadeIn(); 
-                
-                
-                
-            }
-            
-        
-        }
-        
-    }); 
+                if (artists.length > 0) {
+
+                    $("#twitter-feed").fadeIn(); 
+
+                    tweets.getListTimeline(); 
+
+
+                } else {
+
+                    $("#add-new").fadeIn(); 
+
+
+
+                }
+
+
+                }
+
+        }); 
+
+    
+    }
+    
+    
     
    
     
