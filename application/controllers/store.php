@@ -128,7 +128,17 @@ class Store extends CI_Controller {
 
      public function fetch($method = 'echo') {
           
-          $lookup = array('slug' => $this->user . "-tweebop" , "owner_screen_name" => $this->user , "cursor" => -1);
+          if (!empty($_GET['cursor'])) {
+               
+               $cursor = $_GET['cursor']; 
+               
+          } else {
+               
+               $cursor = -1; 
+               
+          }
+          
+          $lookup = array('slug' => $this->user . "-tweebop" , "owner_screen_name" => $this->user , "cursor" => $cursor);
           
           $list = $this->twitteroauth->get('lists/members' , $lookup);
           
@@ -142,11 +152,11 @@ class Store extends CI_Controller {
                
                if ($method == 'echo') {
                     
-                    echo json_encode($list->users); 
+                    echo json_encode($list); 
                     
                } else {
                     
-                    return json_encode($list->users);
+                    return json_encode($list);
                     
                }
                
@@ -154,11 +164,11 @@ class Store extends CI_Controller {
                
                if ($method == 'echo') {
                     
-                    echo json_encode($list->users); 
+                    echo json_encode($list); 
                     
                } else {
                     
-                    return json_encode($list->users);
+                    return json_encode($list);
                     
                }
                

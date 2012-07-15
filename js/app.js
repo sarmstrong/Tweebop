@@ -21,6 +21,8 @@ $(document).ready(function() {
         
         }, 
         
+        
+        
         urlRoot: 'index.php/store/artist' , 
         
         idAttribute : "screen_name"
@@ -30,10 +32,21 @@ $(document).ready(function() {
     
     var artistCollection = Backbone.Collection.extend({
         
-        url : 'index.php/store/fetch' ,
-        
+        url : 'index.php/store/fetch/echo/' ,
        
-        model :  artistModel
+        model :  artistModel , 
+        
+        cursor : -1, 
+        
+        parse: function(response) { 
+                
+            this.cursor = response.next_cursor;
+            
+            this.trigger("parse:success");
+            
+            return response.users;
+        
+        }
       
     }); 
     
@@ -134,8 +147,17 @@ $(document).ready(function() {
         
         initialize : function() { 
             
-            artists.bind("add" , this.addItem , this); 
+            artists.bind('add' , this.addItem , this); 
             
+            artists.bind('parse:success' , this.setUI , this);
+            
+            $('#side-panel .load-more a').hide(); 
+            
+            $('#side-panel .load-more a').bind('click' , function() { 
+            
+                fetchArtists(); 
+            
+            })
             
             
         }, 
@@ -161,6 +183,19 @@ $(document).ready(function() {
             
             
         
+        } , 
+        
+        setUI : function() {
+            
+            if (artists.cursor != 0) {
+                
+                $('#side-panel .load-more a').fadeIn(); 
+                
+            } else {
+                
+                $('#side-panel .load-more a').fadeOut();
+                
+            }
         }
 
         
@@ -265,9 +300,17 @@ $(document).ready(function() {
         
         model : tweet , 
         
+        page : 1 , 
+        
+        state : 'artist', 
+        
+        active_artist : null , 
+        
+        search_filter : '', 
+        
         initialize : function() { 
             
-            _.extend({page  : 1} , {state : 'artist'} , {active_artist : null} , { search_filter : ''})
+            //_.extend({page  : 1} , {state : 'artist'} , {active_artist : null} , { search_filter : ''})
         
             this.on("reset" , function() { 
             
@@ -407,7 +450,7 @@ $(document).ready(function() {
             
             tweets.bind('add' , this.addItem , this); 
             
-            tweets.bind('reset' , this.clearAll , this)
+            tweets.bind('reset' , this.clearAll , this); 
         
         }, 
         
@@ -741,17 +784,23 @@ $(document).ready(function() {
     
     function fetchArtists() { 
         
+        
+        
         artists.fetch({
         
-        add: true  , 
+        add: true  ,
+        
+        data : { cursor : artists.cursor}, 
     
         success: function() { 
+            
+                
             
                 if (artists.length > 0) {
 
                     $("#twitter-feed").fadeIn(); 
 
-                    tweets.getListTimeline(); 
+                    tweets.getListTimeline();  
 
 
                 } else {
@@ -763,7 +812,7 @@ $(document).ready(function() {
                 }
 
 
-                }
+            }
 
         }); 
 

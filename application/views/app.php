@@ -76,6 +76,12 @@
                <ul id='artist-list'>
 
                </ul>
+               
+               <div  class="load-more">
+                    
+                    <a>Load More</a>
+                    
+               </div>
 
           </section>
 
