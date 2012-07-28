@@ -1,301 +1,63 @@
-/* Welcome to Compass.
- * In this file you should write your main styles. (or centralize your imports)
- * Import this file using the following HTML or equivalent:
- * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-/* line 17, ../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
+/*
+Syntax error: File to import not found or unreadable: mixins.
+              Load paths:
+                /Users/stevearmstrong/Sites/tweebop/sass
+                /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/blueprint/stylesheets
+                /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets
+                /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets
+                /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets
+                Compass::SpriteImporter
+        on line 10 of /Users/stevearmstrong/Sites/tweebop/sass/screen.scss
 
-/* line 20, ../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-body {
-  line-height: 1;
-}
-
-/* line 22, ../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-ol, ul {
-  list-style: none;
-}
-
-/* line 24, ../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-/* line 26, ../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-caption, th, td {
-  text-align: left;
-  font-weight: normal;
-  vertical-align: middle;
-}
-
-/* line 28, ../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-q, blockquote {
-  quotes: none;
-}
-/* line 101, ../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-q:before, q:after, blockquote:before, blockquote:after {
-  content: "";
-  content: none;
-}
-
-/* line 30, ../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-a img {
-  border: none;
-}
-
-/* line 114, ../../../.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.1/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
-  display: block;
-}
-
-/********************
-BASIC LAYOUT
-********************/
-/* line 16, ../sass/screen.scss */
-body, html {
-  height: 100%;
-}
-
-/* line 24, ../sass/screen.scss */
-div#wrapper {
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
-  height: 100%;
-}
-
-/* line 36, ../sass/screen.scss */
-header {
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #eeeeee), color-stop(100%, #ffffff));
-  background: -webkit-linear-gradient(#eeeeee, #ffffff);
-  background: -moz-linear-gradient(#eeeeee, #ffffff);
-  background: -o-linear-gradient(#eeeeee, #ffffff);
-  background: -ms-linear-gradient(#eeeeee, #ffffff);
-  background: linear-gradient(#eeeeee, #ffffff);
-  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  float: left;
-}
-/* line 50, ../sass/screen.scss */
-header #profile {
-  float: left;
-  margin-right: 20px;
-}
-/* line 56, ../sass/screen.scss */
-header #profile img, header #profile p {
-  float: left;
-}
-/* line 61, ../sass/screen.scss */
-header #profile img {
-  margin: 10px;
-  border: 1px solid #ccc;
-}
-/* line 69, ../sass/screen.scss */
-header #profile p {
-  margin: 17px 5px 0 0;
-}
-/* line 78, ../sass/screen.scss */
-header .action {
-  position: relative;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 22px 10px 10px;
-  padding-left: 10px;
-  border-left: 1px solid #ccc;
-  display: block;
-  float: left;
-}
-
-/* line 108, ../sass/screen.scss */
-#app-view {
-  width: 100%;
-  height: 100%;
-}
-
-/* line 115, ../sass/screen.scss */
-#side-panel {
-  width: 200px;
-  min-height: 100%;
-  float: left;
-  background: #eee;
-  position: relative;
-  z-index: 9;
-}
-/* line 129, ../sass/screen.scss */
-#side-panel li {
-  width: 180px;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  margin: 0;
-  float: left;
-}
-/* line 141, ../sass/screen.scss */
-#side-panel li .thumb, #side-panel li .content {
-  float: left;
-}
-/* line 147, ../sass/screen.scss */
-#side-panel li .thumb {
-  width: 60px;
-  height: 50px;
-}
-/* line 155, ../sass/screen.scss */
-#side-panel li .content {
-  width: 100px;
-}
-/* line 161, ../sass/screen.scss */
-#side-panel li .action {
-  padding-top: 5px;
-  color: #aaa;
-  cursor: pointer;
-}
-
-/* line 175, ../sass/screen.scss */
-#content-panel {
-  width: 900px;
-  padding: 20px;
-  height: 100%;
-  float: left;
-}
-
-/* line 187, ../sass/screen.scss */
-#tweets {
-  position: relative;
-}
-/* line 193, ../sass/screen.scss */
-#tweets > div {
-  width: 30%;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  float: left;
-  padding: 10px;
-  height: 150px;
-}
-
-/* line 211, ../sass/screen.scss */
-#results h3 {
-  margin-bottom: 15px;
-}
-/* line 217, ../sass/screen.scss */
-#results div.found {
-  width: 25%;
-  float: left;
-}
-/* line 223, ../sass/screen.scss */
-#results div.found h5 {
-  margin-bottom: 15px;
-}
-
-/********************
-TYPOGRAPHY
-********************/
-/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
-.scale-0 {
-  font-size: 1em;
-}
-
-/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
-.scale-1, h6 {
-  font-size: 1.125em;
-}
-
-/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
-.scale-2, h5 {
-  font-size: 1.266em;
-}
-
-/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
-.scale-3, h4 {
-  font-size: 1.424em;
-}
-
-/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
-.scale-4, h3 {
-  font-size: 1.602em;
-}
-
-/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
-.scale-5, h2 {
-  font-size: 1.802em;
-}
-
-/* line 232, ../../../.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets/_modular-scale.sass */
-.scale-6, h1 {
-  font-size: 2.027em;
-}
-
-/* line 241, ../sass/screen.scss */
-body, html {
-  height: 100%;
-  font-family: 'Open Sans' , Arial , Sans-serif;
-  font-size: 16px;
-}
-
-/* line 258, ../sass/screen.scss */
-a {
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* line 266, ../sass/screen.scss */
-* {
-  font-size: 16px;
-}
-
-/* line 272, ../sass/screen.scss */
-p {
-  line-height: 1.2em;
-  font-size: .85em;
-}
-
-/* line 280, ../sass/screen.scss */
-ul li {
-  font-size: 1em;
-}
-
-/* line 286, ../sass/screen.scss */
-.action {
-  font-size: .85em;
-}
-
-/********************
-COLOR
-********************/
-/* line 292, ../sass/screen.scss */
-body {
-  color: #333;
-}
-
-/* line 298, ../sass/screen.scss */
-a {
-  color: #333;
-}
-
-/* line 304, ../sass/screen.scss */
-.active {
-  background: #0094C2;
-}
+Backtrace:
+/Users/stevearmstrong/Sites/tweebop/sass/screen.scss:10
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/import_node.rb:64:in `rescue in import'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/import_node.rb:42:in `import'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/import_node.rb:25:in `imported_file'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/perform.rb:149:in `rescue in visit_import'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/perform.rb:154:in `visit_import'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/base.rb:37:in `visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/perform.rb:20:in `visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/base.rb:53:in `map'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/perform.rb:29:in `block in visit_children'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/perform.rb:41:in `with_environment'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/perform.rb:28:in `visit_children'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/perform.rb:49:in `visit_root'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/base.rb:37:in `visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/perform.rb:20:in `visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/visitors/perform.rb:7:in `visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/tree/root_node.rb:20:in `render'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/engine.rb:309:in `_render'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.0.alpha.269/lib/sass/engine.rb:256:in `render'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:140:in `block (2 levels) in compile'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:126:in `timed'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:139:in `block in compile'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/logger.rb:45:in `red'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:138:in `compile'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:118:in `compile_if_required'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:103:in `block (2 levels) in run'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:101:in `each'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:101:in `block in run'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:126:in `timed'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:100:in `run'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/commands/watch_project.rb:147:in `recompile'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/commands/watch_project.rb:68:in `perform'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/commands/base.rb:18:in `execute'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/commands/project_base.rb:19:in `execute'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/bin/compass:30:in `block in <top (required)>'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/bin/compass:44:in `call'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/bin/compass:44:in `<top (required)>'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/bin/compass:19:in `load'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/bin/compass:19:in `<main>'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/bin/ruby_noexec_wrapper:14:in `eval'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/bin/ruby_noexec_wrapper:14:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: File to import not found or unreadable: mixins.\A               Load paths:\A                 /Users/stevearmstrong/Sites/tweebop/sass\A                 /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/blueprint/stylesheets\A                 /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets\A                 /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-0.0.5/stylesheets\A                 /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets\A                 Compass::SpriteImporter\A         on line 10 of /Users/stevearmstrong/Sites/tweebop/sass/screen.scss"; }

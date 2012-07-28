@@ -105,13 +105,17 @@ $(document).ready(function() {
                 
                 if (item.get('id') != m.get("id")) { 
                 
-                    item.save({active : false })
+                    item.save({
+                        active : false
+                    })
                     
                 }
             
             });
             
-            m.save({active : !this.model.get('active')}); 
+            m.save({
+                active : !this.model.get('active')
+            }); 
             
             $("#artist-list li").removeClass('active'); 
             
@@ -151,14 +155,37 @@ $(document).ready(function() {
             
             artists.bind('parse:success' , this.setUI , this);
             
-            $('#side-panel .load-more a').hide(); 
+            artists.bind('load:start' , this.loadStart , this);
             
-            $('#side-panel .load-more a').bind('click' , function() { 
+            artists.bind('load:stop' , this.loadStop , this);
+            
+            $('#side-panel .load-more').hide(); 
+            
+            $('#side-panel .load-more').bind('click' , function() { 
             
                 fetchArtists(); 
             
             })
             
+            
+            
+            
+        }, 
+        
+        loadStart : function() {
+            
+            $('#side-panel .load-more .stopped').hide();
+            
+            $('#side-panel .load-more .start').fadeIn();
+           
+            
+        },
+        
+        loadStop : function() {
+           
+            $('#side-panel .load-more .start').hide();
+            
+            $('#side-panel .load-more .stopped').fadeIn();
             
         }, 
         
@@ -189,14 +216,22 @@ $(document).ready(function() {
             
             if (artists.cursor != 0) {
                 
-                $('#side-panel .load-more a').fadeIn(); 
+                $('#side-panel .load-more').fadeIn(); 
                 
             } else {
                 
-                $('#side-panel .load-more a').fadeOut();
+                $('#side-panel .load-more').fadeOut();
                 
             }
+        } , 
+        
+        clear: function () {
+            
+            artistList.html("")
+            
         }
+        
+        
 
         
         
@@ -216,6 +251,10 @@ $(document).ready(function() {
         initialize : function() { 
         
             this.input = $("#artist-query"); 
+            
+            $("#add-new .error").hide();
+            
+            $("#add-new .success").hide();
     
         }, 
         
@@ -223,7 +262,11 @@ $(document).ready(function() {
             
             $("#add-new .error p").text("");
             
-            $("#add-new .success p").text(""); 
+            $("#add-new .error").hide();
+            
+            $("#add-new .success p").text("");
+            
+            $("#add-new .success").hide();
             
             if (this.input.val() == '') return; 
             
@@ -241,15 +284,20 @@ $(document).ready(function() {
                 
                         $("#add-new .error p").text(response.error);
                         
+                        $("#add-new .error").fadeIn();
+                        
                         model.destroy(); 
                 
                     } else {
                         
                         
-                        artists.add(new_artist , {at : 0});
+                        artists.add(new_artist , {
+                            at : 0
+                        });
                         
                         $("#add-new .success p").text('"' + new_artist.get('name') + '"' + " is now in you TweeBop list.");
                         
+                        $("#add-new .success").fadeIn();
                 
                     }
                 
@@ -264,9 +312,6 @@ $(document).ready(function() {
 
     });
     
-    
-    
-   
     
     /*
      * 
@@ -308,9 +353,9 @@ $(document).ready(function() {
         
         search_filter : '', 
         
+        loading : false, 
+        
         initialize : function() { 
-            
-            //_.extend({page  : 1} , {state : 'artist'} , {active_artist : null} , { search_filter : ''})
         
             this.on("reset" , function() { 
             
@@ -329,7 +374,7 @@ $(document).ready(function() {
                 $('#list-count span').text(this.length);
 
             })
-           
+            
         
         }, 
         
@@ -362,14 +407,33 @@ $(document).ready(function() {
             }; 
             
             this.url = 'https://api.twitter.com/1/statuses/user_timeline.json'; 
+           
+            var obj = this;
                 
             this.fetch({
                     
                 add: true , 
 
                 dataType: 'jsonp',
+                
+                beforeSend : function() {
+                
+                    obj.trigger("load:start");
+                    
+                } , 
 
-                data : {screen_name : this.active_artist , page : this.page} 
+                data : {
+                    
+                    screen_name : this.active_artist , 
+                    
+                    page : this.page
+                } , 
+                
+                complete : function() {
+                    
+                    obj.trigger("load:stop");
+                    
+                }
                     
             })
     
@@ -388,14 +452,48 @@ $(document).ready(function() {
             this.url = 'https://api.twitter.com/1/lists/statuses.json';
             
             var handle = $("#twitter-handle").val(); 
+            
+            var obj = this; 
                 
             this.fetch({
                     
                 add: true , 
                     
                 dataType: 'jsonp',
+                
+                timeout : 5000,
+                
+                beforeSend : function() {
+                
+                    obj.trigger("load:start");
                     
-                data : {slug : handle + "-tweebop" , owner_screen_name : handle , page : this.page}
+                    obj.loading = true;
+                    
+                } , 
+                    
+                data : {
+                    
+                    slug : handle + "-tweebop" , 
+                    
+                    owner_screen_name : handle , 
+                    
+                    page : this.page
+                    
+                } , 
+                
+                complete : function(jqXHR , textStatus) {
+                    
+                    obj.trigger("load:stop");
+                    
+                    var t = setTimeout(function() {obj.loading = false} , 1500);
+                    
+                } , 
+                
+                error : function (jqXHR, textStatus, errorThrown) {
+                    
+                    obj.trigger("error"); 
+                    
+                } 
                     
             })
         
@@ -448,9 +546,68 @@ $(document).ready(function() {
         
         initialize: function() { 
             
+            $("#twitter-feed .error").hide();
+            
             tweets.bind('add' , this.addItem , this); 
             
             tweets.bind('reset' , this.clearAll , this); 
+            
+            tweets.bind("load:start", this.loadStart , this); 
+            
+            tweets.bind("load:stop" , this.loadStop , this); 
+            
+            tweets.bind("error" , this.error , this);
+            
+            ///Disabled to keep from going over rate limit
+            
+            //$(window).bind('scroll' , $.proxy(this , 'autoLoad')); 
+        
+        }, 
+        
+        /*
+         * Might bring back if rate limit increases
+         */
+        
+//        autoLoad : function () { 
+//         
+//            if ($("#next").offset().top + 20 < $(window).height() + $(window).scrollTop() ) {
+//                
+//                //console.log("true");
+//                
+//                if (tweets.loading !== true) {
+//                    
+//                    tweets.next();
+//                    
+//                    
+//                }
+//                
+//            }
+//        
+//        }, 
+        error : function() { 
+        
+            $("#twitter-feed .error p").text("Seems Twitter has stopped working on us. We're probably using it one to many times. Try back in an hour. Thanks!");
+            
+            $("#twitter-feed .error").fadeIn();
+            
+        
+        },
+        
+        loadStart : function () { 
+            
+            $("#twitter-feed .error").hide();
+        
+            $('#twitter-feed #next .stopped').hide();
+            
+            $('#twitter-feed #next .start').fadeIn();
+            
+        }, 
+        
+        loadStop : function () { 
+        
+            $('#twitter-feed #next .start').hide();
+            
+            $('#twitter-feed #next .stopped').fadeIn();
         
         }, 
         
@@ -502,6 +659,8 @@ $(document).ready(function() {
         initialize : function() {  
             
             this.$el.find('#results').hide(); 
+            
+            this.$el.find('.error').hide();
 
         } , 
         
@@ -513,15 +672,17 @@ $(document).ready(function() {
             
             if (json.twitter_success === true) {
                 
-                this.$el.find('#results').show();
+                this.$el.find('#results').fadeIn();
                 
-                $(".not-found").append(json.not_found);
+                $(".not-found ul").append(json.not_found);
             
-                $('.found').append(json.found);
+                $('.found ul').append(json.found);
                 
-                $("#artist_list").html(""); 
+                list.clear(); 
                 
-                fetchArtists();  
+                artists.cursor = -1;
+                
+                fetchArtists(true);  
                 
             } else {
                 
@@ -559,14 +720,18 @@ $(document).ready(function() {
         showMessage : function (message) { 
             
             
-            itunes_upload.$el.find('.error').text(message); 
+            itunes_upload.$el.find('.error p').text(message); 
+            
+            itunes_upload.$el.find('.error').fadeIn();
             
         
         }, 
 
         onSubmit : function (id , filename) { 
             
-            itunes_upload.$el.find('.error').text(''); 
+            itunes_upload.$el.find('.error p').text(''); 
+            
+            itunes_upload.$el.find('.error').hide();
             
         }
 
@@ -586,7 +751,7 @@ $(document).ready(function() {
         
         initialize : function() { 
         
-           this.input = $("#artists-search-query"); 
+            this.input = $("#artists-search-query"); 
         
     
         }, 
@@ -613,7 +778,7 @@ $(document).ready(function() {
         
         initialize : function() { 
         
-           this.input = $("#tweet-filter-query"); 
+            this.input = $("#tweet-filter-query"); 
            
            
            
@@ -702,13 +867,17 @@ $(document).ready(function() {
 
             if (match !== null ) {
 
-                item.set({hidden: false});
+                item.set({
+                    hidden: false
+                });
                 
                 return 1;  
 
             } else {
 
-                item.set({hidden: true});
+                item.set({
+                    hidden: true
+                });
                 
                 return 0; 
                 
@@ -749,7 +918,7 @@ $(document).ready(function() {
      */
     
     
-    $(".panel").hide();   
+    $(".inner-panel").hide();   
     
     $(".panel-button").each(function() { 
     
@@ -757,7 +926,7 @@ $(document).ready(function() {
         
             var panel = $(this).attr('rel'); 
             
-            $(".panel").hide(); 
+            $(".inner-panel").hide(); 
             
             $(panel).fadeIn(); 
             
@@ -780,38 +949,51 @@ $(document).ready(function() {
      */
     
     
-    fetchArtists(); 
+    fetchArtists(true); 
     
-    function fetchArtists() { 
-        
-        
+    function fetchArtists(refresh) { 
         
         artists.fetch({
         
-        add: true  ,
+            add: true  ,
         
-        data : { cursor : artists.cursor}, 
-    
-        success: function() { 
+            data : {
+                cursor : artists.cursor
+            }, 
             
+            beforeSend : function () {
+               
+                artists.trigger("load:start");
                 
+            }, 
+    
+            success: function() {
             
-                if (artists.length > 0) {
+                if (refresh !== false && refresh !== undefined) {
+                    
+                    if (artists.length > 0) { 
 
-                    $("#twitter-feed").fadeIn(); 
+                        $("#twitter-feed").fadeIn(); 
 
-                    tweets.getListTimeline();  
-
-
-                } else {
-
-                    $("#add-new").fadeIn(); 
+                        tweets.getListTimeline();  
 
 
+                    } else {
 
+                        $("#add-new").fadeIn(); 
+                        
+                    }
+                    
+                    app_init = true;
+                    
                 }
-
-
+                
+            }, 
+            
+            complete : function () {
+                
+                artists.trigger("load:stop");
+                
             }
 
         }); 
@@ -821,7 +1003,7 @@ $(document).ready(function() {
     
     
     
-   
+//$("#next").offsetY() < $(window).height() + $(window).scrollTop() 
     
     
     

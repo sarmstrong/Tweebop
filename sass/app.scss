@@ -1,0 +1,676 @@
+/***********
+Basic Layout
+************/
+
+@import 'compass/css3';
+
+@import "compass/utilities/general/clearfix";
+
+@import 'settings';
+
+@import "foundation/base";
+
+@import "foundation/buttons";
+
+
+
+a {
+	
+	cursor: pointer ;
+	
+}
+
+.clearfix {
+	
+	@include clearfix;
+}
+
+header {
+	
+	min-height: 30px;
+	
+	margin-bottom: 30px;
+	
+	@include background-image(linear-gradient(#333 , #555));
+	
+	
+	
+	.action {
+		
+		height: 100%;
+		
+		border-left: 1px solid #222;
+		
+		padding: 12px 15px 15px;
+		
+		cursor: pointer ;
+		
+		&:last-child {
+			
+			border-right: 1px solid #222;
+			
+		}
+		
+		&:hover , a:hover {
+			
+			color: white;
+			
+			background: $mainColor;
+			
+		}
+		
+		 
+		
+	}
+	
+}
+
+
+
+#side-panel {
+	
+	li {
+	
+		list-style: none;
+		
+	}
+	
+	.content {
+		
+		padding-left: 0;
+		
+		padding-right: $columnGutter;
+		
+		
+	}
+	
+	.full-width {
+		
+		padding-top: 10px;
+		
+		padding-bottom: 7px;
+		
+		width: 100%;
+		
+		float: left;
+		
+		border-bottom: 1px solid #ccc;
+		
+		
+	}
+	
+	.user-data {
+
+		padding-left: 48px + $columnGutter/2; 
+
+		position: relative; 
+
+		img {
+
+			position: absolute;
+
+			top: 4px; 
+			
+			left: 0;
+
+
+		}
+
+	}
+	
+	#artist-search {
+		
+		padding-top: 0;
+		
+		border-bottom: none;
+		
+		margin-bottom: 10px;
+		
+	}
+	
+	#artist-list {
+		
+		.user-data {
+			
+			margin-bottom: 10px;
+			
+			min-height: 65px;
+			
+		}
+		
+	}
+	
+	 #profile {
+		
+		background: white;
+		
+		border: none;
+		
+		border-right: 1px solid #EEE; 
+		
+		border-bottom: 1px solid #CCC;
+		
+		padding-top: 0;
+		
+		padding-bottom: 12px;
+		
+		img {
+			
+			@include box-shadow(1px 1px 3px rgba(0,0,0,0.3));
+			
+		}
+		
+		.user-data {
+
+			min-height: 48px;
+
+		}
+		
+	}
+	
+	.active {
+		
+		.full-width {
+			
+			border-bottom: none;
+			
+		}
+		
+		
+		
+		.highlight {
+			
+			z-index: 30;
+			
+			width: 108%;
+			
+			position: absolute;
+			
+			height: 100%;
+			
+			top: -4%;
+			
+			left: -4%;
+			
+			padding: 15px;
+			
+			border-radius: 5px;
+			
+		}
+		
+		a {
+			
+			img {
+				
+				z-index: 31;
+				
+			}
+			
+		}
+		
+		p {
+			
+			position: relative;
+			
+			z-index: 32;
+			
+		}
+		
+		h6 {
+			
+			position: relative;
+			
+			z-index: 33;
+			
+		}
+		
+	}
+	
+
+	
+	
+		
+}
+
+#side-panel .load-more , #twitter-feed #next  {
+	
+	border: 1px solid #C4C4C4;
+	
+	
+	
+	background: #E4E4E4;
+	
+	text-align: center;
+	
+	padding: 10px;
+	
+	cursor: pointer;
+	
+	h6 {
+		
+		margin: 0;
+		
+	}
+	
+	
+	
+	.start {
+		
+		padding: 3px 30px;
+		
+		display: none;
+		
+		background: url('../images/loader.gif') no-repeat top left;
+		
+	}
+	
+	a {
+		
+		font-weight: bold;
+		
+	}
+	
+}
+
+#next {
+	
+	margin-bottom: 40px;
+	
+}
+
+
+
+
+
+.full {
+	
+	width: 100%;
+	
+	float: left;
+	
+}
+
+.alert-box {
+	
+	p {
+		
+		margin-bottom: 0;
+		
+	}
+	
+}
+
+.qq-upload-button {
+	
+	@extend .button;
+	
+}
+
+#content-panel {
+	
+	#tweet-filter {
+		
+		margin-top: 15px;
+		
+		margin-bottom: 10px;
+		
+		
+		
+	}
+	
+	#list-count {
+		
+		p {
+			
+			border-bottom: 1px solid #ccc;
+		
+			padding-bottom: 3px;
+			
+			margin-bottom: 18px;
+			
+		}
+		
+	}
+	
+	.user-data {
+
+		padding-left: 48px + $columnGutter; 
+
+		position: relative; 
+
+		img {
+
+			position: absolute;
+
+			top: 4px; 
+			
+			left: $columnGutter/2;
+			
+			@include box-shadow(1px 1px 3px rgba(0,0,0,0.3));
+
+
+		}
+
+	}
+	
+	
+	#tweets {
+		
+		margin-top: 10px; 
+		
+		.tweet-body {
+			
+			width: 100%; 
+			
+			float: left;
+
+			//padding-left: 48px + $columnGutter;
+
+			
+
+			margin-bottom: 15px;
+
+		}
+
+
+		.user {
+
+			width: 70%;
+
+			float: left;
+
+		}
+
+		.date {
+
+			width: 20%;
+
+			float: right;
+
+		}
+
+		.content {
+
+			float: left;
+			
+			clear: both;
+			
+			width: 100%;
+			
+			padding-bottom: 15px;
+			
+			border-bottom: 1px solid #ccc;
+
+		}
+		
+	}
+	
+
+	
+	
+}
+
+/***********
+SPLASH LAYOUT
+************/
+
+p#logo-splash  {
+	
+	float: left;
+	
+	text-align: center;
+	
+	width: 100%;
+	
+	img {
+
+		text-align: center;
+		
+		padding-top: 10px;
+
+		padding-bottom: 35px;
+		
+		margin: 0;
+
+	}
+	
+	a {
+		
+		background: url('../images/sign-in-with-twitter_0.png');
+
+		width: 450px;
+
+		height: 72px;
+
+		text-align: center;
+		
+		display: inline-block;
+		
+		margin-bottom: 20px;
+		
+		span {
+			
+			display: none;
+			
+		}
+		
+	}
+	
+}
+
+
+
+
+
+.feature {
+	
+	//border-right: 1px solid #ccc;
+	
+	min-height: 200px;
+	
+	&:last-child {
+		
+		border-right: none;
+	};
+	
+	img {
+		
+		border: 1px solid #ccc;
+		
+		margin-top: 10px;
+		
+	}
+	
+}
+
+.splash {
+	
+	h3 {
+		
+		text-align: center;
+		
+		line-height: 1.2em;
+		
+		border-bottom: 1px solid #CCC;
+		
+		border-top: 1px solid #CCC;
+		
+		padding-bottom: 8px;
+		
+		padding-top: 8px; 
+		
+		margin-top: 0;
+		
+	}
+	
+}
+
+
+/***********
+TYPOGRAPHY
+************/
+
+ul.standard li {
+	
+	list-style-position: outside;
+	
+	margin-left: $columnGutter;
+}
+
+header .action {
+	
+	text-align: center;
+	
+}
+
+body {
+	
+	font-family: "open-sans",sans-serif;;
+	
+}
+
+h1 , h2 , h3 , h4 , h5 , h6 {
+	
+	
+}
+
+p ,  {
+	
+	line-height: 1.4em;
+	
+}
+
+#side-panel h6 {
+	
+	margin-top: -4px;
+	
+	margin-bottom: 3px;
+	
+}
+
+.tweet-body p.content {
+	
+	font-size: ms(1);
+	
+	line-height: 1.5em;
+	
+	margin-bottom: -2px;
+	
+	
+}
+
+#content-panel h5  , .date , #profile h5 {
+	
+	margin-top: 0; 
+	
+	margin-bottom: 5px;
+	
+	line-height: 1.3em;
+	
+}
+
+h4 {
+	
+	margin-top: -5px;
+	
+	margin-bottom: 20px;
+	
+}
+
+#results h4 {
+	
+	margin-bottom: 0;
+	
+	margin-top: 20px;
+	
+}
+
+#content-panel h5 span {
+	
+	font-size: ms(0);
+	
+}
+
+.date {
+	
+	text-align: right;
+	
+}
+
+#list-count {
+	
+	p {
+		
+		font-size: ms(0);
+		
+		text-align: right;
+		
+		span {
+			
+			font-size: ms(3);
+			
+		}
+		
+	}
+	
+}
+
+.load-more a {
+	
+	font-weight: bold;
+	
+	
+	
+}
+
+/***********
+COLOR
+************/
+
+div.panel {
+	
+	background: #EEECEC;
+	
+}
+
+#tweets h5 span {
+	
+	color : lighten($mainColor , 20%); 
+	
+}
+
+.date {
+	
+	color: #aaa; 
+	
+}
+
+header a  , #artist-list .active p  a , #artist-list .active h6  a {
+	
+	color: white;
+	
+}
+
+#artist-list h6 a  {
+	
+	color: #777;
+	
+}
+
+ .splash h3  {
+	
+	color: #555;
+	
+}
+
+.found h6 {
+	
+	color: $successColor;
+	
+}
+
+.not-found h6 {
+	
+	color: $alertColor;
+	
+}

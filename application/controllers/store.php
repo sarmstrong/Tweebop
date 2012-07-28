@@ -47,14 +47,19 @@ class Store extends CI_Controller {
           $this->load->spark('cache/2.0.0');
 
           ///// HANDLE REQUEST MEDHOD
+          
+          //if ($_SERVER['REQUEST_METHOD'] === "GET" ) {
 
-          if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'PUT') {
+          if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
 
                $screen_name = $this->get_post_screen_name();
                
+               //$screen_name = $id; 
+               
                $artist_lookup = $this->get_screen_name($screen_name);
                
-              
+               
+
                
                if ($artist_lookup['success'] === false) {
                     
@@ -69,10 +74,13 @@ class Store extends CI_Controller {
                }
                
                
+               
+               
                $params = array('slug' => $this->user . "-tweebop" , "owner_screen_name" => $this->user , "screen_name" => $artist_twitter_name); 
                
                $create = $this->twitteroauth->post('lists/members/create' , $params);
- 
+               
+               
                
                //var_dump($create); 
                
@@ -86,9 +94,25 @@ class Store extends CI_Controller {
                     
                } else {
                     
+                    
+                    
                     $profile = $this->get_twitter_user($artist_twitter_name); 
                     
-                    echo json_encode($profile[0]); 
+                    if (!empty($profile->error)) {
+                         
+                         $error = array("error" => $profile->error );
+
+                         echo json_encode($error);
+                         
+                         
+                    } else {
+                         
+                        echo json_encode($profile[0]);
+                         
+                    }
+                    
+                    
+                     
                     
                }
                
@@ -246,6 +270,12 @@ class Store extends CI_Controller {
           $params = "screen_name=" . $screen_name;
 
           $tweets = $this->cache->library('rest', 'get', array('1/users/lookup.json', $params) , 43200 );
+          
+          if (!empty($tweets->error)) {
+               
+               $this->cache->library('rest', 'get', array('1/users/lookup.json', $params) , -1);
+               
+          }
 
           return $tweets;
      }
@@ -352,7 +382,7 @@ class Store extends CI_Controller {
                
                                    if ($artist_lookup['success'] === false) {
                                         
-                                        $errors .= "<li><strong>" . $v . "</strong> : " . $artist_lookup['error'] . "</li>"; 
+                                        $errors .= "<li><strong>" . $v . "</strong>: " . $artist_lookup['error'] . "</li>"; 
 
                                    } else {
                                         
@@ -364,7 +394,7 @@ class Store extends CI_Controller {
                                              
                                              $to_add[$artist_lookup['screen_name']] = true; 
                                              
-                                             $found .= "<li><strong>$v</strong> - @" . $artist_lookup['screen_name'] . "</li>";
+                                             $found .= "<li><strong>$v</strong> @" . $artist_lookup['screen_name'] . "</li>";
                                              
                                         }
 

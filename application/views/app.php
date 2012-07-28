@@ -1,245 +1,357 @@
-<!DOCTYPE html>
-<html>
-     <head>
-          <title></title>
-          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-          <link href="stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
-          
-          <link href="stylesheets/fileuploader.css" media="screen, projection" rel="stylesheet" type="text/css" />
-
-          <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-
-          <script type='text/javascript' src="js/jquery" /></script>
-
-     <script type='text/javascript' src='js/underscore-min.js'></script>
-
-     <script type='text/javascript' src='js/backbone-min.js'></script>
-
-     <script type='text/javascript' src='js/backbone.localStorage-min.js'></script>
-
-     <script type="text/javascript" src='js/fileuploader'></script>
-
-     <script type="text/javascript" src='js/app.js'></script>
-
-</head>
-<body>
-     <div id='app-view'>
-
-          <header>
-
-               <?php //var_dump($user); ?>
-
-               <div id='profile'>
-
-                    <img src="<?php echo $user[0]->profile_image_url ?>" />
-
-                    <p>Welcome<br /><a href='https://twitter.com/#!/<?php echo $user[0]->screen_name ?>'>@<?php echo $user[0]->screen_name ?></a></p>
 
 
-               </div>
+               <header >
 
-               <div id="add-new-button" class='action panel-button' rel="#add-new" ><a>Add New</a></div>
+                    <div class="row">
 
-               <div id='add-itunes-library' class='action panel-button' rel='#library-upload'><a >Upload iTunes Library (Beta)</a></div>
+                         <div id='logo' class='four columns'>
 
-               <div id='see-tweets-button' class='action panel-button' rel='#twitter-feed'><a >See Some Tweets</a></div>
+                              <p>&nbsp; &nbsp; </p>
 
-               <div id='logout' class='action'><a href="<?php echo base_url() ?>index.php/welcome/logout">Log Out</a></div>
-
-               <div id='tweet-filter' class="action"  >
-
-                    <input type="text" id="tweet-filter-query" value="" />
-
-                    <input type='button' class="clear" value="Clear" />
-
-               </div>
-
-               <div id='list-count' class="action"  >
-
-                    <p>Loaded: <span> </span></p>
-
-               </div>
-
-
-          </header>
-
-          <section id="side-panel">
-
-               <div id='artist-search'>
-
-                    <input type="text" id="artists-search-query" val="" />
-
-
-               </div>
-
-               <ul id='artist-list'>
-
-               </ul>
-               
-               <div  class="load-more">
-                    
-                    <a>Load More</a>
-                    
-               </div>
-
-          </section>
-
-          <section id='content-panel'>
-
-               <!-- Add New Form -->
-
-               <div id='add-new' class="panel" >
-
-
-                    <div class='error'>
-
-                         <p> </p>
-
-                    </div>
-
-                    <div class='success'>
-
-                         <p> </p>
-
-                    </div>
-
-                    <form>
-
-                         <label for='artist-txt'>Add an artist to your feed</label>
-
-                         <input type='text' name='artist-query' id='artist-query' />
-
-                         <input type='submit' id='artist-lookup' value="Add Artist" />
-
-
-
-                    </form>
-
-                    
-
-
-               </div>
-
-               <!-- Library Upload -->
-
-               <div id="library-upload" class="panel" >
-                    
-                    <div class='error'>
-
-                         <p> </p>
-
-                    </div>
-                    
-                    <div id="file-uploader">
-                          
-                         <noscript>
-                         
-                              <p>Please enable JavaScript to use file uploader.</p>
-                              
-                              <!-- or put a simple form for upload here -->
-                              
-                         </noscript>  
-                         
-                    </div>
-                    
-                    <div id='results'>
-                         
-                         <h3>Library Progress</h3>
-                         
-                         <div class="found">
-                              
-                              <h4>Added</h4>
-                              
-                              <ul>
-                                   
-                              </ul>
-                              
                          </div>
-                         
-                         <div class="not-found">
-                              
-                              <h5>Not-Added</h5>
-                              
-                              <ul>
-                                   
-                                   
-                              </ul>
-                              
-                         </div> 
+
+
+                         <div class='eight columns'>
+
+                              <div id="add-new-button" class='three columns action panel-button' rel="#add-new" ><a>Add New</a></div>
+
+                              <div id='add-itunes-library' class='three columns  action panel-button' rel='#library-upload'><a >Upload iTunes</a></div>
+
+                              <div id='see-tweets-button' class='three columns action panel-button' rel='#twitter-feed'><a >See Tweets</a></div>
+
+                              <div id='logout' class='three columns  action'><a href="<?php echo base_url() ?>index.php/welcome/logout">Log Out</a></div>
+
+                         </div>
 
                     </div>
+
+               </header>
+
+               <div class='row'>
+
+                    <section id="side-panel" class='four columns '>
+
+                         <div  class=" panel " id='profile'>
+
+                              <div class="user-data">
+
+                                   <img src="<?php echo $user[0]->profile_image_url ?>" />
+
+                                   <h5>Welcome<br /><a href='https://twitter.com/#!/<?php echo $user[0]->screen_name ?>'>@<?php echo $user[0]->screen_name ?></a></h5>
+
+                              </div>
+
+
+
+                         </div>
+
+
+                         <div class="panel">
+
+                              <div class="full-width" id='artist-search'>
+
+                                   <input placeholder="Filter Artists . . . "type="text" id="artists-search-query" val="" />
+
+
+                              </div>
+
+                              <div class="full clearfix">
+
+                                   <ul  id='artist-list'>
+
+                                   </ul>
+
+                              </div>
+
+                              <br clear="all" />
+
+                              <div  class="panel load-more">
+
+                                   <a class="stopped">Load More</a>
+
+                                   <a class="start">Loading</a>
+
+                              </div>
+
+
+                         </div>
+
+
+
+                    </section>
+
+                    <section id='content-panel' class='eight columns'>
+
+                         <!-- Add New Form -->
+
+                         <div id='add-new' class="row inner-panel" >
+
+                              <form class="columns ten">
+
+                                   <h4>Add an artist to your feed</h4>
+
+                                   <div class='error alert-box alert'>
+
+                                        <p> </p>
+
+                                   </div>
+
+                                   <div class='success alert-box success'>
+
+                                        <p> </p>
+
+                                   </div>
+
+                                   <input placeholder="Artist Name"  class="columns nine" type='text' name='artist-query' id='artist-query' />
+
+                                   <input class="columns three button postfix" type='submit' id='artist-lookup' value="Add Artist" />
+
+
+
+                              </form>
+
+
+
+
+                         </div>
+
+                         <!-- Library Upload -->
+
+                         <div id="library-upload" class="inner-panel" >
+
+
+
+
+                              <div class="columns twelve">
+
+                                   <h4>Upload an iTunes Library (Beta)</h4>
+
+                                   <h6>Disclaimer</h6>
+
+                                   <ul class="standard" >
+
+                                        <li>Do the the limitations of the third party service, the app may timeout before completing your list. </li>
+
+                                        <li>Some artists may have a Twitter account but cannot be verified</li>
+
+                                   </ul>
+                              </div>
+
+
+
+                              <div class="columns twelve">
+
+                                   <p>&nbsp;</p>
+
+                                   <h4>Let's Get Started</h4>
+
+                                   <p>Use the button below to browse to and upload your iTunes library</p>
+
+                                   <h6>Tip: Find your iTunes library at the following locations.</h6>
+                                   <ul class="standard" >
+                                        <li><strong>Mac OS X:</strong>  /Users/username/Music/iTunes/iTunes Music Library.xml</li>
+                                        <li><strong>Windows XP:</strong>  C:\Documents and Settings\username\My Documents\My Music\iTunes\iTunes Music Library.xml</li>
+                                        <li><strong>Windows Vista:</strong>  C:\Users\username\Music\iTunes\iTunes Music Library.xml</li>
+                                        <li><strong>Windows 7:</strong>  C:\Users\username\My Music\iTunes\iTunes Music Library.xml</li>
+
+                                   </ul>
+
+
+
+
+                                   <div class='error alert-box alert'>
+
+                                        <p> </p>
+
+                                   </div>
+
+                                   <div id="file-uploader">
+
+                                        <noscript>
+
+                                        <p>Please enable JavaScript to use file uploader.</p>
+
+                                        <!-- or put a simple form for upload here -->
+
+                                        </noscript>  
+
+                                   </div>
+
+                              </div>
+
+
+
+
+
+
+
+                              <div id='results' style="display: block">
+
+
+                                   <div class="columns twelve">
+
+                                        <h4>Upload Results!</h4>  
+
+                                   </div>
+
+
+
+                                   <div class="found columns six">
+
+                                        <h6>Added</h6>
+
+                                        <ul class="standard">
+
+
+
+                                        </ul>
+
+
+
+                                   </div>
+
+                                   <div class="not-found columns six">
+
+                                        <h6>Not-Added</h6>
+
+                                        <ul class="standard">
+
+
+                                        </ul>
+
+                                   </div> 
+
+                              </div>
+
+                         </div>
+
+                         <!-- Twitter Feed -->
+
+                         <div id='twitter-feed' class="row inner-panel" >
+                              
+                              
+
+                              <div >
+
+                                   <div id='tweet-filter' class="ten columns action"  >
+
+                                        <input placeholder="Filter Tweets . . . "class="nine columns"type="text" id="tweet-filter-query" value="" />
+
+                                        <input class="three columns postfix button" type='button' class="clear" value="Clear" />
+
+                                   </div>
+
+                                   <div id='list-count' class="two columns action"  >
+
+                                        <p><span> </span><br />Loaded</p>
+
+                                   </div>
+
+
+                              </div>
+
+                                   <div class='error twelve columns '>     
+                                   
+                                   <div class="alert-box alert">
+                                        
+                                        <p>
+                                             
+                                             
+                                        </p>
+                                        
+                                   </div>
+                                      
+                              </div>
+
+                              <div id='tweets'>
+
+
+                              </div>
+
+                              <div class="columns twelve" >
+
+                                   <div id="next">
+
+                                        <a class="stopped">Load More</a>
+
+                                        <a class="start">Loading</a>
+
+
+
+
+                                   </div>
+
+
+                              </div>
+
+
+
+                         </div>
+
+
+
+                    </section>
 
                </div>
-               
-               <!-- Twitter Feed -->
 
-               <div id='twitter-feed' class="panel" >
+          </div>
 
-                    <div class="error">
+          <script type='text/template' id='artist-item'>
 
+               <div class="full-width user-data">
 
-                    </div>
+                    <div class="highlight"></div>
 
-                    <div id='tweets'>
+                    <a class='toggle-tweets' ><img src="<%= profile_image_url %>" /></a>
 
+                    <h6><a class='toggle-tweets' ><%= name %></a></h6><p><a class="action remove">X Clear</a></p>
 
-                    </div>
+               </div>
 
-                    <div id="next">
+          </script>
 
-                         <h4><a>Load More</a</h4>
+          <script type='text/template' id='tweet-item'>
 
-                    </div>
+               <% 
 
+               var m = Date.parse(created_at)
+
+               var d = new Date(m) 
+
+               var year = d.getFullYear(); 
+
+               var year = year.toString().substr(2,2); 
+
+               %>
+
+               <% 
+
+               var txt = text 
+
+               var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
+
+               var tweet_msg =  txt.replace(exp,"<a target='_blank' href='$1'>$1</a>") 
+
+               %>
+
+               <div class="tweet-body user-data columns twelve">
+
+                    <img src="<%= user.profile_image_url %>" />
+
+                    <h5 class="user"><%= user.name %> <span><a href="https://twitter.com/<%= user.screen_name %>">@<%= user.screen_name %></a></span></h5><p class="date"><%= d.getMonth()+1 + "/" + d.getDate() + "/" + year %></p>
+                    
+                    <p class="content"><%= tweet_msg %></p> 
 
 
                </div>
 
 
 
-          </section>
+          </script>
 
-     </div>
+          <input name="twitter-handle" id="twitter-handle" type="hidden" value="<?php echo $user[0]->screen_name ?>" />
 
-     <script type='text/template' id='artist-item'>
-
-          <div class="thumb"><a class='toggle-tweets' ><img src="<%= profile_image_url %>" /></a></div>
-
-          <div class="content"><a class='toggle-tweets' ><%= name %></a><br /><a class="action remove">X Clear</a></div>
-
-     </script>
-
-     <script type='text/template' id='tweet-item'>
-
-          <% 
-
-          var m = Date.parse(created_at)
-
-          var d = new Date(m) 
-
-          %>
-
-          <% 
-
-          var txt = text 
-
-          var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
-
-          var tweet_msg =  txt.replace(exp,"<a target='_blank' href='$1'>$1</a>") 
-
-          %>
-
-
-          <div class="profile"><img src="<%= user.profile_image_url %>" /><p><%= user.name %></p></div>
-
-          <div class='tweet-body'><p><%= tweet_msg %></p><span> <%= d.getMonth()+1 + "/" + d.getDate() + "/" + d.getFullYear() %></div>
-
-     </script>
-
-     <input name="twitter-handle" id="twitter-handle" type="hidden" value="<?php echo $user[0]->screen_name ?>" />
-
-</body>
+     </body>
 
 </html>
 

@@ -1,0 +1,50 @@
+@import 'modular-scale';
+
+// Settings file containing Foundation defaults
+
+// Grid Settings
+
+// $rowWidth: 1000px;
+$columnGutter: 30px;
+// $totalColumns: 12;
+// $mobileTotalColumns: 4;
+
+// Colors Settings
+
+$mainColor: #2ba6cb;
+$secondaryColor: #CB7A2B;
+$alertColor: red;
+$successColor: #629632;
+$txtColor: #555;
+$highlightColor: desaturate(lighten(#2ba6cb , 15%) , 20%);
+$black: #000;
+$white: #fff;
+$shinyEdge: rgba(#fff, .5);
+$darkEdge: rgba(#000, .2);
+
+// Button Settings
+
+// $buttonRadius: 3px;
+// $btnBase: 10px;
+
+// $tinyBtnBase: $btnBase - 5;
+// $smallBtnBase: $btnBase - 3;
+// $largeBtnBase: $btnBase + 5;
+
+// Form Settings
+
+// $formSpacing: 12px;
+
+// Tab Settings
+
+// $tabHeight: 40px;
+
+// Nav Bar Settings
+
+// $navBarHeight: 40px;
+// $navFlyoutBaseWidth: 250px;
+
+// Modular Scale
+$ratio: $golden;
+$base-size: 14px 44px;
+
