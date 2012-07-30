@@ -1,8 +1,7 @@
-<header >
+<header>
 
                     
-
-               </header>
+</header>
 
 <div class='row splash splash'>
 
@@ -22,7 +21,7 @@
 
      <div class="columns four feature">
 
-          <h3>Start a TweeBop Twitter List</h3>
+          <h5>Start a TweeBop Twitter List</h5>
           
           <img alt="Shows tweebop list" src="images/feature-1.png" />
 
@@ -30,7 +29,7 @@
 
      <div class="columns four feature">
 
-          <h3>Add Your Favorite Artists</h3>
+          <h5>Add Your Favorite Artists</h5>
           
           <img alt="Shows how you can add an artist" src="images/feature-2.png" />
 
@@ -38,7 +37,7 @@
 
      <div class="columns four feature">
 
-          <h3>Create a List From Your Itunes Library</h3>
+          <h5>Add Your iTunes Artists</h5>
           
           <img alt="Itunes Logo" src="images/feature-3.png" />
 
@@ -48,6 +47,10 @@
 </div>
 
 </div>
+
+</div>
+
+<?php include_once 'footer-include.php' ?>
 
 
 </body>

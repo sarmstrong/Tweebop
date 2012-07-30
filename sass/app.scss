@@ -12,6 +12,7 @@ Basic Layout
 
 @import "foundation/buttons";
 
+$footer-height: 35px;
 
 
 a {
@@ -25,6 +26,36 @@ a {
 	@include clearfix;
 }
 
+body , html {
+	
+	height: 100%;
+	
+}
+
+#wrapper {
+	
+	min-height: 100%;
+	
+	margin-bottom: -$footer-height;
+	
+	float: left;
+	
+	width: 100%;
+	
+	@include clearfix;
+	
+}
+
+#inner-wrapper {
+	
+	float: left;
+	
+	width: 100%;
+	
+	padding-bottom: $footer-height + 20px;
+	
+}
+
 header {
 	
 	min-height: 30px;
@@ -33,7 +64,17 @@ header {
 	
 	@include background-image(linear-gradient(#333 , #555));
 	
-	
+	#logo {
+		
+		img {
+			
+			margin-top: 10px;
+			
+			margin-left: 20px;
+			
+		}
+		
+	}
 	
 	.action {
 		
@@ -405,7 +446,31 @@ header {
 		
 	}
 	
+}
 
+footer {
+	
+	@include background-image(linear-gradient(#333 , #555));
+	
+	width: 100%;
+	
+	height: $footer-height;
+	
+	float: left;
+	
+	p {
+		
+		margin-top: 6px;
+		
+		margin-bottom: 0;
+		
+	}
+	
+	.copyright {
+		
+		text-align: right;
+		
+	}
 	
 	
 }
@@ -485,7 +550,7 @@ p#logo-splash  {
 
 .splash {
 	
-	h3 {
+	h5 {
 		
 		text-align: center;
 		
@@ -639,7 +704,7 @@ div.panel {
 	
 }
 
-.date {
+.date , footer p {
 	
 	color: #aaa; 
 	
@@ -651,7 +716,7 @@ header a  , #artist-list .active p  a , #artist-list .active h6  a {
 	
 }
 
-#artist-list h6 a  {
+#artist-list h6 a   {
 	
 	color: #777;
 	

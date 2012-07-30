@@ -105,17 +105,13 @@ $(document).ready(function() {
                 
                 if (item.get('id') != m.get("id")) { 
                 
-                    item.save({
-                        active : false
-                    })
+                    item.set("active" , false);
                     
                 }
             
             });
             
-            m.save({
-                active : !this.model.get('active')
-            }); 
+            m.set("active" , !m.get("active"));
             
             $("#artist-list li").removeClass('active'); 
             
@@ -341,11 +337,13 @@ $(document).ready(function() {
     
     var tweetCollection = Backbone.Collection.extend({
         
-        url : 'https://api.twitter.com/1/lists/statuses.json' ,
+        url : 'index.php/store/fetch_timeline' ,
         
         model : tweet , 
         
-        page : 1 , 
+        //page : 1 , 
+        
+        max_id : 0,
         
         state : 'artist', 
         
@@ -359,7 +357,7 @@ $(document).ready(function() {
         
             this.on("reset" , function() { 
             
-                this.page = 1; 
+                this.max_id = 0; 
             
             }); 
             
@@ -378,12 +376,32 @@ $(document).ready(function() {
         
         }, 
         
+        parse : function(response) {
+            
+           if (response.length === 0 ) {
+               
+              window.scrollTo(0, 0);
+              
+              this.trigger("error");
+              
+              this.trigger("load:stop"); 
+               
+           }
+            
+           var last = _.last(response);
+               
+           this.max_id = last.id_str;
+           
+           return response;
+            
+        }, 
+        
         
         next : function() { 
             
             this.page++; 
             
-            if (this.state === 'artist') { 
+        if (this.state === 'artist') { 
             
                 this.getArtistTimeline('page'); 
         
@@ -405,8 +423,6 @@ $(document).ready(function() {
                 this.reset();
                 
             }; 
-            
-            this.url = 'https://api.twitter.com/1/statuses/user_timeline.json'; 
            
             var obj = this;
                 
@@ -414,7 +430,7 @@ $(document).ready(function() {
                     
                 add: true , 
 
-                dataType: 'jsonp',
+                //dataType: 'jsonp',
                 
                 beforeSend : function() {
                 
@@ -426,7 +442,9 @@ $(document).ready(function() {
                     
                     screen_name : this.active_artist , 
                     
-                    page : this.page
+                    max_id : this.max_id ,
+                    
+                    type : this.state
                 } , 
                 
                 complete : function() {
@@ -449,8 +467,6 @@ $(document).ready(function() {
                 
             } 
             
-            this.url = 'https://api.twitter.com/1/lists/statuses.json';
-            
             var handle = $("#twitter-handle").val(); 
             
             var obj = this; 
@@ -459,7 +475,7 @@ $(document).ready(function() {
                     
                 add: true , 
                     
-                dataType: 'jsonp',
+                //dataType: 'jsonp',
                 
                 timeout : 5000,
                 
@@ -477,7 +493,9 @@ $(document).ready(function() {
                     
                     owner_screen_name : handle , 
                     
-                    page : this.page
+                    max_id : this.max_id  , 
+                    
+                    type : this.state
                     
                 } , 
                 
@@ -586,7 +604,7 @@ $(document).ready(function() {
 //        }, 
         error : function() { 
         
-            $("#twitter-feed .error p").text("Seems Twitter has stopped working on us. We're probably using it one to many times. Try back in an hour. Thanks!");
+            $("#twitter-feed .error p").text("Seems Twitter has stopped working on us. We're probably using it one to many times or it's not paging correctly. Try back in an hour. Thanks!");
             
             $("#twitter-feed .error").fadeIn();
             
@@ -788,7 +806,7 @@ $(document).ready(function() {
             
             'keypress input' : 'filterTweets' ,
             
-            'click .clear' : 'clearFilter'
+            'click input.clear' : 'clearFilter'
             
         } , 
         
@@ -802,7 +820,7 @@ $(document).ready(function() {
             
             tweets.search_filter = this.input.val(); 
             
-            console.log(count); 
+            //console.log(count); 
 
             if (count === 0) {
                 
@@ -818,9 +836,12 @@ $(document).ready(function() {
             
         }, 
         
-        clearFilter : function() { 
+        clearFilter : function() {
+            
         
             this.input.val(''); 
+            
+            tweets.search_filter = this.input.val(); 
             
             filter.group(tweets , '' , 'text')
         

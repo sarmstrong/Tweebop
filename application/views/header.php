@@ -36,7 +36,7 @@
           <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
           <script type='text/javascript' src="js/jquery" ></script>
-
+          
           <script type='text/javascript' src='js/underscore-min.js'></script>
 
           <script type='text/javascript' src='js/backbone-min.js'></script>
@@ -46,6 +46,8 @@
           <script type="text/javascript" src='js/app.js'></script>
 
           <script src="js/foundation/modernizr.foundation.js"></script>
+          
+<!--          <script type='text/javascript' src="js/foundation/jquery.reveal.js" ></script>-->
 
           <!-- IE Fix for HTML5 Tags -->
           <!--[if lt IE 9]>
@@ -55,3 +57,4 @@
      </head>
      <body>
           <div id='wrapper'>
+               <div id='inner-wrapper'>
