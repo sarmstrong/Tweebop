@@ -445,4 +445,33 @@ class Store extends CI_Controller {
           }
      }
 
+     
+     public function cacheTop($offset) {
+          
+          /// Called by CRON
+          
+          $this->config->load('echo_nest');
+
+          $key = $this->config->item('echo_nest_key');
+
+          $this->load->spark('restclient/2.1.0');
+
+          $this->load->library('rest');
+
+          $this->rest->initialize(array('server' => 'http://developer.echonest.com/'));
+
+          $params = array("results" => '90', 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json' , 'start' => $offset );
+          
+          $hot = $this->rest->get("api/v4/artist/top_hottt" , $params); 
+          
+          foreach ( $hot->response->artists as $artist) { 
+               
+               $this->get_screen_name($artist->name);
+               
+          } 
+          
+          
+     }
+
+
 }
