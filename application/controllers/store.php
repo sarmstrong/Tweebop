@@ -93,8 +93,9 @@ class Store extends CI_Controller {
                     echo json_encode($error);
 
                     return false;
-                    
                } else {
+
+
 
                     $profile = $this->get_twitter_user($artist_twitter_name);
 
@@ -103,7 +104,6 @@ class Store extends CI_Controller {
                          $error = array("error" => $profile->error);
 
                          echo json_encode($error);
-                         
                     } else {
 
                          echo json_encode($profile[0]);
@@ -243,7 +243,7 @@ class Store extends CI_Controller {
 
           $params = array("name" => urldecode($screen_name), 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json');
 
-          $artist = $this->cache->library('rest', 'get', array('api/v4/artist/twitter', $params), 2678400);
+          $artist = $this->cache->library('rest', 'get', array('api/v4/artist/twitter', $params), 100000);
 
 
           if ($artist->response->status->code === 0) {
@@ -286,7 +286,7 @@ class Store extends CI_Controller {
 
           $params = "screen_name=" . $screen_name;
 
-          $tweets = $this->cache->library('rest', 'get', array('1/users/lookup.json', $params), 259200);
+          $tweets = $this->cache->library('rest', 'get', array('1/users/lookup.json', $params), 43200);
 
           if (!empty($tweets->error)) {
 
@@ -443,31 +443,6 @@ class Store extends CI_Controller {
 
                return false;
           }
-     }
-     
-     public function cacheTop($offset) {
-          
-          $this->config->load('echo_nest');
-
-          $key = $this->config->item('echo_nest_key');
-
-          $this->load->spark('restclient/2.1.0');
-
-          $this->load->library('rest');
-
-          $this->rest->initialize(array('server' => 'http://developer.echonest.com/'));
-
-          $params = array("results" => '90', 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json' , 'start' => $offset );
-          
-          $hot = $this->rest->get("api/v4/artist/top_hottt" , $params); 
-          
-          foreach ( $hot->response->artists as $artist) { 
-               
-               $this->get_screen_name($artist->name);
-               
-          } 
-          
-          
      }
 
 }
