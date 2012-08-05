@@ -38,6 +38,33 @@ $(document).ready(function() {
         
         cursor : -1, 
         
+        search_filter : '',
+        
+        initialize : function() {
+            
+            this.on("add" , function(item , collection , options) {
+            
+                if (this.search_filter !== '' && this.search_filter !== undefined) {
+                    
+                    filter.single(item , this.search_filter , 'name'); 
+                    
+                } 
+                
+                if (options.index == collection.length - 1) {
+                    
+                    var hide = this.where({hidden : true}); 
+                    
+                    if (hide.length === this.length) {
+                        
+                        $("#artist-error").fadeIn();
+                    }
+                    
+                }
+                
+            });
+            
+        }, 
+        
         parse: function(response) { 
                 
             this.cursor = response.next_cursor;
@@ -80,6 +107,8 @@ $(document).ready(function() {
         render : function() {
             
             this.$el.html(this.template(this.model.toJSON())); 
+            
+            this.filter(); 
             
             return this;
             
@@ -166,9 +195,12 @@ $(document).ready(function() {
             
             
             
+            
         }, 
         
         loadStart : function() {
+            
+            $("#artist-error").hide(); 
             
             $('#side-panel .load-more .stopped').hide();
             
@@ -361,15 +393,26 @@ $(document).ready(function() {
             
             }); 
             
-            this.on("add" , function(item) { 
+            this.on("add" , function(item , collection , options) { 
                 
                 if (this.search_filter !== '' && this.search_filter !== undefined) {
                     
-                    filter.single(item , this.search_filter , 'text'); 
+                    var f = filter.single(item , this.search_filter , 'text'); 
                     
                 }
                 
                 $('#list-count span').text(this.length);
+                
+                if (options.index == collection.length - 1) {
+                    
+                    var hide = this.where({hidden : true}); 
+                    
+                    if (hide.length === this.length) {
+                        
+                        $("#twitter-feed .error").fadeIn();
+                    }
+                    
+                }
 
             })
             
@@ -378,21 +421,22 @@ $(document).ready(function() {
         
         parse : function(response) {
             
-           if (response.length === 0 ) {
+            if (response.length === 0 ) {
                
-              window.scrollTo(0, 0);
+                window.scrollTo(0, 0);
               
-              this.trigger("error");
+                this.trigger("error");
               
-              this.trigger("load:stop"); 
+                this.trigger("load:stop"); 
                
-           }
+            }
             
-           var last = _.last(response);
+            
+            var last = _.last(response);
                
-           this.max_id = last.id_str;
+            this.max_id = last.id_str;
            
-           return response;
+            return response;
             
         }, 
         
@@ -401,7 +445,7 @@ $(document).ready(function() {
             
             this.page++; 
             
-        if (this.state === 'artist') { 
+            if (this.state === 'artist') { 
             
                 this.getArtistTimeline('page'); 
         
@@ -503,7 +547,9 @@ $(document).ready(function() {
                     
                     obj.trigger("load:stop");
                     
-                    var t = setTimeout(function() {obj.loading = false} , 1500);
+                    var t = setTimeout(function() {
+                        obj.loading = false
+                    } , 1500);
                     
                 } , 
                 
@@ -576,9 +622,9 @@ $(document).ready(function() {
             
             tweets.bind("error" , this.error , this);
             
-            ///Disabled to keep from going over rate limit
+        ///Disabled to keep from going over rate limit
             
-            //$(window).bind('scroll' , $.proxy(this , 'autoLoad')); 
+        //$(window).bind('scroll' , $.proxy(this , 'autoLoad')); 
         
         }, 
         
@@ -586,22 +632,22 @@ $(document).ready(function() {
          * Might bring back if rate limit increases
          */
         
-//        autoLoad : function () { 
-//         
-//            if ($("#next").offset().top + 20 < $(window).height() + $(window).scrollTop() ) {
-//                
-//                //console.log("true");
-//                
-//                if (tweets.loading !== true) {
-//                    
-//                    tweets.next();
-//                    
-//                    
-//                }
-//                
-//            }
-//        
-//        }, 
+        //        autoLoad : function () { 
+        //         
+        //            if ($("#next").offset().top + 20 < $(window).height() + $(window).scrollTop() ) {
+        //                
+        //                //console.log("true");
+        //                
+        //                if (tweets.loading !== true) {
+        //                    
+        //                    tweets.next();
+        //                    
+        //                    
+        //                }
+        //                
+        //            }
+        //        
+        //        }, 
         error : function() { 
         
             $("#twitter-feed .error p").text("Seems Twitter has stopped working on us. We're probably using it one to many times or it's not paging correctly. Try back in an hour. Thanks!");
@@ -684,9 +730,7 @@ $(document).ready(function() {
         
         /// SCOPE FOR UPLOADER PROPERTIES ARE IN THE UPLOADER SCOPE
         
-        updateResults : function (json) { 
-            
-            console.log(json);
+        updateResults : function (json) {
             
             if (json.twitter_success === true) {
                 
@@ -769,23 +813,56 @@ $(document).ready(function() {
         
         initialize : function() { 
         
-            this.input = $("#artists-search-query"); 
+            this.input = $("#artists-search-query");
+            
+            this.error = $("#artist-error");
+            
+            this.error.hide();
         
     
         }, 
         
         events : {
             
-            'keypress input' : 'searchArtists'
+            'keypress input' : 'filterArtists', 
+            
+            'click input.clear' : 'clearFilter'
             
         } , 
         
-        searchArtists : function(e) { 
+        filterArtists : function(e) { 
             
             if (e.keyCode !== 13) return;
             
-            filter.group(artists , this.input.val() , 'name'); 
+            var count = filter.group(artists , this.input.val() , 'name'); 
             
+            artists.search_filter = this.input.val();
+            
+            if (count === 0) {
+                
+                this.error.html("<p> Cannot find any results for <strong>'" + this.input.val() + "'</strong>. <em>(Filters are left on till you clear them)!</em></p> "); 
+                
+                this.error.show();
+                
+            } else {
+                
+                this.error.hide();               
+                
+            }
+            
+        }, 
+        
+        clearFilter : function() {
+        
+            this.input.val(''); 
+            
+            artists.search_filter = this.input.val(); 
+            
+            this.error.hide();
+            
+            filter.group(artists , '' , 'name'); 
+            
+        
         }
         
     })
@@ -798,6 +875,7 @@ $(document).ready(function() {
         
             this.input = $("#tweet-filter-query"); 
            
+            this.error = $("#twitter-feed .error"); 
            
            
         }, 
@@ -816,21 +894,17 @@ $(document).ready(function() {
             
             var count = filter.group(tweets, this.input.val() , 'text');
             
-            var error = $("#twitter-feed .error"); 
-            
             tweets.search_filter = this.input.val(); 
             
-            //console.log(count); 
-
             if (count === 0) {
                 
-                error.html("<p> Cannot find any results for <strong>'" + this.input.val() + "'</strong>.<br /><em>(Filters are left on till you clear them)!</em></p> "); 
+                this.error.find('p').html("Cannot find any results for <strong>'" + this.input.val() + "'</strong>.<br /><em>(Filters are left on till you clear them)!</em> "); 
                 
-                error.show();
+                this.error.show();
                 
             } else {
                 
-                error.hide();               
+                this.error.hide();               
                 
             }
             
@@ -840,6 +914,8 @@ $(document).ready(function() {
             
         
             this.input.val(''); 
+            
+            this.error.hide();
             
             tweets.search_filter = this.input.val(); 
             
@@ -878,11 +954,7 @@ $(document).ready(function() {
         
         single : function(item , search_string , match_field) {
             
-            var exp = new RegExp(search_string , 'ig'); 
-            
-            //console.log(item); 
-            
-            //console.log(search_string);
+            var exp = new RegExp(search_string , 'ig');
 
             var match = item.get(match_field).match(exp); 
 
@@ -1022,18 +1094,5 @@ $(document).ready(function() {
     
     }
     
-    
-    
-//$("#next").offsetY() < $(window).height() + $(window).scrollTop() 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 }); 
 

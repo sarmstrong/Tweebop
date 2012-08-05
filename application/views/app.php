@@ -50,10 +50,21 @@
 
                <div class="full-width" id='artist-search'>
 
-                    <input placeholder="Filter Artists . . . "type="text" id="artists-search-query" val="" />
+                    <input class="eight columns"placeholder="Filter Artists . . . "type="text" id="artists-search-query" val="" />
+
+                    <input class="four columns postfix button clear" type='button'  value="Clear" />
+
+                    <div id="artist-error" class="twelve columns">     
+
+                         <br /><p></p>
+
+                    </div>
+
 
 
                </div>
+
+
 
                <div class="full clearfix">
 
@@ -344,7 +355,7 @@
           <h5 class="user"><%= user.name %> <span><a href="https://twitter.com/<%= user.screen_name %>">@<%= user.screen_name %></a></span></h5><p class="date"><%= d.getMonth()+1 + "/" + d.getDate() + "/" + year %></p>
 
           <p class="content"><%= tweet_msg %></p> 
-          
+
 
      </div>
 

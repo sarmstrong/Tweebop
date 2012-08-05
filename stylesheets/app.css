@@ -738,12 +738,16 @@ header .action:hover, header .action a:hover {
   border-bottom: none;
   margin-bottom: 10px;
 }
-/* line 174, ../sass/app.scss */
+/* line 172, ../sass/app.scss */
+#side-panel #artist-error {
+  padding: 0;
+}
+/* line 180, ../sass/app.scss */
 #side-panel #artist-list .user-data {
   margin-bottom: 10px;
   min-height: 65px;
 }
-/* line 184, ../sass/app.scss */
+/* line 190, ../sass/app.scss */
 #side-panel #profile {
   background: white;
   border: none;
@@ -752,21 +756,21 @@ header .action:hover, header .action a:hover {
   padding-top: 0;
   padding-bottom: 12px;
 }
-/* line 198, ../sass/app.scss */
+/* line 204, ../sass/app.scss */
 #side-panel #profile img {
   -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
-/* line 204, ../sass/app.scss */
+/* line 210, ../sass/app.scss */
 #side-panel #profile .user-data {
   min-height: 48px;
 }
-/* line 214, ../sass/app.scss */
+/* line 220, ../sass/app.scss */
 #side-panel .active .full-width {
   border-bottom: none;
 }
-/* line 222, ../sass/app.scss */
+/* line 228, ../sass/app.scss */
 #side-panel .active .highlight {
   z-index: 30;
   width: 108%;
@@ -777,22 +781,22 @@ header .action:hover, header .action a:hover {
   padding: 15px;
   border-radius: 5px;
 }
-/* line 244, ../sass/app.scss */
+/* line 250, ../sass/app.scss */
 #side-panel .active a img {
   z-index: 31;
 }
-/* line 252, ../sass/app.scss */
+/* line 258, ../sass/app.scss */
 #side-panel .active p {
   position: relative;
   z-index: 32;
 }
-/* line 260, ../sass/app.scss */
+/* line 266, ../sass/app.scss */
 #side-panel .active h6 {
   position: relative;
   z-index: 33;
 }
 
-/* line 276, ../sass/app.scss */
+/* line 282, ../sass/app.scss */
 #side-panel .load-more, #twitter-feed #next {
   border: 1px solid #C4C4C4;
   background: #E4E4E4;
@@ -800,54 +804,54 @@ header .action:hover, header .action a:hover {
   padding: 10px;
   cursor: pointer;
 }
-/* line 290, ../sass/app.scss */
+/* line 296, ../sass/app.scss */
 #side-panel .load-more h6, #twitter-feed #next h6 {
   margin: 0;
 }
-/* line 298, ../sass/app.scss */
+/* line 304, ../sass/app.scss */
 #side-panel .load-more .start, #twitter-feed #next .start {
   padding: 3px 30px;
   display: none;
   background: url("../images/loader.gif") no-repeat top left;
 }
-/* line 308, ../sass/app.scss */
+/* line 314, ../sass/app.scss */
 #side-panel .load-more a, #twitter-feed #next a {
   font-weight: bold;
 }
 
-/* line 316, ../sass/app.scss */
+/* line 322, ../sass/app.scss */
 #next {
   margin-bottom: 40px;
 }
 
-/* line 326, ../sass/app.scss */
+/* line 332, ../sass/app.scss */
 .full {
   width: 100%;
   float: left;
 }
 
-/* line 336, ../sass/app.scss */
+/* line 342, ../sass/app.scss */
 .alert-box p {
   margin-bottom: 0;
 }
 
-/* line 352, ../sass/app.scss */
+/* line 358, ../sass/app.scss */
 #content-panel #tweet-filter {
   margin-top: 15px;
   margin-bottom: 10px;
 }
-/* line 364, ../sass/app.scss */
+/* line 370, ../sass/app.scss */
 #content-panel #list-count p {
   border-bottom: 1px solid #ccc;
   padding-bottom: 3px;
   margin-bottom: 18px;
 }
-/* line 376, ../sass/app.scss */
+/* line 382, ../sass/app.scss */
 #content-panel .user-data {
   padding-left: 78px;
   position: relative;
 }
-/* line 382, ../sass/app.scss */
+/* line 388, ../sass/app.scss */
 #content-panel .user-data img {
   position: absolute;
   top: 4px;
@@ -856,27 +860,27 @@ header .action:hover, header .action a:hover {
   -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
-/* line 398, ../sass/app.scss */
+/* line 404, ../sass/app.scss */
 #content-panel #tweets {
   margin-top: 10px;
 }
-/* line 402, ../sass/app.scss */
+/* line 408, ../sass/app.scss */
 #content-panel #tweets .tweet-body {
   width: 100%;
   float: left;
   margin-bottom: 15px;
 }
-/* line 417, ../sass/app.scss */
+/* line 423, ../sass/app.scss */
 #content-panel #tweets .user {
   width: 70%;
   float: left;
 }
-/* line 425, ../sass/app.scss */
+/* line 431, ../sass/app.scss */
 #content-panel #tweets .date {
   width: 20%;
   float: right;
 }
-/* line 433, ../sass/app.scss */
+/* line 439, ../sass/app.scss */
 #content-panel #tweets .content {
   float: left;
   clear: both;
@@ -885,7 +889,7 @@ header .action:hover, header .action a:hover {
   border-bottom: 1px solid #ccc;
 }
 
-/* line 451, ../sass/app.scss */
+/* line 457, ../sass/app.scss */
 footer {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #333333), color-stop(100%, #555555));
   background-image: -webkit-linear-gradient(#333333, #555555);
@@ -896,12 +900,12 @@ footer {
   height: 35px;
   float: left;
 }
-/* line 461, ../sass/app.scss */
+/* line 467, ../sass/app.scss */
 footer p {
   margin-top: 6px;
   margin-bottom: 0;
 }
-/* line 469, ../sass/app.scss */
+/* line 475, ../sass/app.scss */
 footer .copyright {
   text-align: right;
 }
@@ -909,20 +913,20 @@ footer .copyright {
 /***********
 SPLASH LAYOUT
 ************/
-/* line 482, ../sass/app.scss */
+/* line 488, ../sass/app.scss */
 p#logo-splash {
   float: left;
   text-align: center;
   width: 100%;
 }
-/* line 490, ../sass/app.scss */
+/* line 496, ../sass/app.scss */
 p#logo-splash img {
   text-align: center;
   padding-top: 10px;
   padding-bottom: 35px;
   margin: 0;
 }
-/* line 502, ../sass/app.scss */
+/* line 508, ../sass/app.scss */
 p#logo-splash a {
   background: url("../images/sign-in-with-twitter_0.png");
   width: 450px;
@@ -931,26 +935,26 @@ p#logo-splash a {
   display: inline-block;
   margin-bottom: 20px;
 }
-/* line 516, ../sass/app.scss */
+/* line 522, ../sass/app.scss */
 p#logo-splash a span {
   display: none;
 }
 
-/* line 530, ../sass/app.scss */
+/* line 536, ../sass/app.scss */
 .feature {
   min-height: 200px;
 }
-/* line 536, ../sass/app.scss */
+/* line 542, ../sass/app.scss */
 .feature:last-child {
   border-right: none;
 }
-/* line 541, ../sass/app.scss */
+/* line 547, ../sass/app.scss */
 .feature img {
   border: 1px solid #ccc;
   margin-top: 10px;
 }
 
-/* line 553, ../sass/app.scss */
+/* line 559, ../sass/app.scss */
 .splash h5 {
   text-align: center;
   line-height: 1.2em;
@@ -964,80 +968,80 @@ p#logo-splash a span {
 /***********
 TYPOGRAPHY
 ************/
-/* line 578, ../sass/app.scss */
+/* line 584, ../sass/app.scss */
 ul.standard li {
   list-style-position: outside;
   margin-left: 30px;
 }
 
-/* line 585, ../sass/app.scss */
+/* line 591, ../sass/app.scss */
 header .action {
   text-align: center;
 }
 
-/* line 591, ../sass/app.scss */
+/* line 597, ../sass/app.scss */
 body {
   font-family: "open-sans",sans-serif;
 }
 
-/* line 602, ../sass/app.scss */
+/* line 608, ../sass/app.scss */
 p {
   line-height: 1.4em;
 }
 
-/* line 608, ../sass/app.scss */
+/* line 614, ../sass/app.scss */
 #side-panel h6 {
   margin-top: -4px;
   margin-bottom: 3px;
 }
 
-/* line 616, ../sass/app.scss */
+/* line 622, ../sass/app.scss */
 .tweet-body p.content {
   font-size: 17px;
   line-height: 1.5em;
   margin-bottom: -2px;
 }
 
-/* line 627, ../sass/app.scss */
+/* line 633, ../sass/app.scss */
 #content-panel h5, .date, #profile h5 {
   margin-top: 0;
   margin-bottom: 5px;
   line-height: 1.3em;
 }
 
-/* line 637, ../sass/app.scss */
+/* line 643, ../sass/app.scss */
 h4 {
   margin-top: -5px;
   margin-bottom: 20px;
 }
 
-/* line 645, ../sass/app.scss */
+/* line 651, ../sass/app.scss */
 #results h4 {
   margin-bottom: 0;
   margin-top: 20px;
 }
 
-/* line 653, ../sass/app.scss */
+/* line 659, ../sass/app.scss */
 #content-panel h5 span {
   font-size: 14px;
 }
 
-/* line 659, ../sass/app.scss */
+/* line 665, ../sass/app.scss */
 .date {
   text-align: right;
 }
 
-/* line 667, ../sass/app.scss */
+/* line 673, ../sass/app.scss */
 #list-count p {
   font-size: 14px;
   text-align: right;
 }
-/* line 673, ../sass/app.scss */
+/* line 679, ../sass/app.scss */
 #list-count p span {
   font-size: 27px;
 }
 
-/* line 683, ../sass/app.scss */
+/* line 689, ../sass/app.scss */
 .load-more a {
   font-weight: bold;
 }
@@ -1045,42 +1049,42 @@ h4 {
 /***********
 COLOR
 ************/
-/* line 695, ../sass/app.scss */
+/* line 701, ../sass/app.scss */
 div.panel {
   background: #EEECEC;
 }
 
-/* line 701, ../sass/app.scss */
+/* line 707, ../sass/app.scss */
 #tweets h5 span {
   color: #79cae3;
 }
 
-/* line 707, ../sass/app.scss */
+/* line 713, ../sass/app.scss */
 .date, footer p {
   color: #aaa;
 }
 
-/* line 713, ../sass/app.scss */
+/* line 719, ../sass/app.scss */
 header a, #artist-list .active p a, #artist-list .active h6 a {
   color: white;
 }
 
-/* line 719, ../sass/app.scss */
+/* line 725, ../sass/app.scss */
 #artist-list h6 a {
   color: #777;
 }
 
-/* line 725, ../sass/app.scss */
+/* line 731, ../sass/app.scss */
 .splash h3 {
   color: #555;
 }
 
-/* line 731, ../sass/app.scss */
+/* line 737, ../sass/app.scss */
 .found h6 {
   color: #629632;
 }
 
-/* line 737, ../sass/app.scss */
+/* line 743, ../sass/app.scss */
 .not-found h6 {
   color: red;
 }
