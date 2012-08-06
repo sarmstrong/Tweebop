@@ -21,22 +21,31 @@ class Store extends CI_Controller {
 
           $this->config->load('twitter');
 
-          if ($this->session->userdata('access_token') && $this->session->userdata('access_token_secret')) {
+          $public_methods = array("cacheTop" => true);
 
-               // If user already logged in
+          //echo $this->uri->segment(2);
 
-               $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'), $this->session->userdata('access_token'), $this->session->userdata('access_token_secret'));
+          if (!isset($public_methods[$this->uri->segment(2)])) {
+               
 
-               $this->user = $this->session->userdata('twitter_screen_name');
-          } else {
+               if ($this->session->userdata('access_token') && $this->session->userdata('access_token_secret')) {
+
+                    // If user already logged in
+
+                    $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'), $this->session->userdata('access_token'), $this->session->userdata('access_token_secret'));
+
+                    $this->user = $this->session->userdata('twitter_screen_name');
+               } else {
 
 // Unknown user
 
-               $error = array("error" => "You have to log in before editing anything!!!");
+                    $error = array("error" => "You have to log in before editing anything!!!");
 
-               echo json_encode($error);
+                    echo json_encode($error);
 
-               exit();
+                    exit();
+               }
+               
           }
      }
 
@@ -191,32 +200,28 @@ class Store extends CI_Controller {
                exit();
           }
 
-          
+
 
           if ($_GET['type'] == 'tweets') {
 
-               $lookup = array('include_entities' => 1 , 'slug' => $_GET['slug'], "per-page" => 20, "owner_screen_name" => $_GET['owner_screen_name']);
-               
-               if (!empty($_GET['max_id']) != 0 ) {
-                    
+               $lookup = array('include_entities' => 1, 'slug' => $_GET['slug'], "per-page" => 20, "owner_screen_name" => $_GET['owner_screen_name']);
+
+               if (!empty($_GET['max_id']) != 0) {
+
                     $lookup["max_id"] = intval($_GET['max_id']) - 1;
-                    
+
                     //echo $lookup["max_id"] ; 
-                    
                     //echo "<br /> 229687334071828480 <br />"; 
-                    
                }
 
                $timeline = $this->twitteroauth->get('lists/statuses', $lookup);
-               
           } else if ($_GET['type'] == 'artist') {
 
-               $lookup = array('include_entities' => 1 , 'screen_name' => $_GET['screen_name'], "per-page" => 20);
-               
-               if (!empty($_GET['max_id']) != 0 ) {
-                    
+               $lookup = array('include_entities' => 1, 'screen_name' => $_GET['screen_name'], "per-page" => 20);
+
+               if (!empty($_GET['max_id']) != 0) {
+
                     $lookup["max_id"] = intval($_GET['max_id']) - 1;
-                    
                }
 
                $timeline = $this->twitteroauth->get('statuses/user_timeline', $lookup);
@@ -444,11 +449,11 @@ class Store extends CI_Controller {
                return false;
           }
      }
-     
+
      public function cacheTop($offset) {
-          
+
           /// Called by CRON
-          
+
           $this->config->load('echo_nest');
 
           $key = $this->config->item('echo_nest_key');
@@ -459,17 +464,14 @@ class Store extends CI_Controller {
 
           $this->rest->initialize(array('server' => 'http://developer.echonest.com/'));
 
-          $params = array("results" => '90', 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json' , 'start' => $offset );
-          
-          $hot = $this->rest->get("api/v4/artist/top_hottt" , $params); 
-          
-          foreach ( $hot->response->artists as $artist) { 
-               
+          $params = array("results" => '90', 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json', 'start' => $offset);
+
+          $hot = $this->rest->get("api/v4/artist/top_hottt", $params);
+
+          foreach ($hot->response->artists as $artist) {
+
                $this->get_screen_name($artist->name);
-               
-          } 
-          
-          
+          }
      }
 
 }
