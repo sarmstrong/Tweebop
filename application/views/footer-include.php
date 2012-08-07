@@ -14,7 +14,7 @@
           <div class="columns four copyright">
                
                <p>
-                    &COPY;2012 CodeAndNotes
+                    &COPY;2012 <a href='http://codeandnotes.com' >CodeAndNotes</a>
                     
                </p>
                

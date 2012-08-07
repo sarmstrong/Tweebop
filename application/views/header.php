@@ -10,24 +10,7 @@
 
           <!-- Included CSS Files -->
 
-          <link rel="stylesheet" href="stylesheets/foundation-style/globals.css">
 
-          <link rel="stylesheet" href="stylesheets/foundation-style/typography.css">
-
-          <link rel="stylesheet" href="stylesheets/foundation-style/grid.css">
-
-          <link rel="stylesheet" href="stylesheets/foundation-style/ui.css">
-
-
-          <link rel="stylesheet" href="stylesheets/foundation-style/tabs.css">
-
-          <link rel="stylesheet" href="stylesheets/foundation-style/navbar.css">
-
-          <link rel="stylesheet" href="stylesheets/foundation-style/forms.css">
-
-          <link rel="stylesheet" href="stylesheets/foundation-style/orbit.css">
-
-          <link rel="stylesheet" href="stylesheets/foundation-style/reveal.css">
 
           <link rel="stylesheet" href="stylesheets/app.css">
 
