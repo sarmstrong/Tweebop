@@ -1,3 +1,7 @@
 application/cache/
 .sass-cache/
 application/config/database.php
+application/config/config.php
+application/config/echo_nest.php
+application/config/twitter.php
+docs/
