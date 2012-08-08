@@ -10,27 +10,33 @@
 
           <!-- Included CSS Files -->
 
-
-
           <link rel="stylesheet" href="stylesheets/app.css">
 
           <script type="text/javascript" src="http://use.typekit.com/zcf8etf.js"></script>
 
           <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+          
+          <?php if (ENVIRONMENT === 'development') : ?>
 
-          <script type='text/javascript' src="js/jquery" ></script>
+          <script type='text/javascript' src="js/jquery.js" ></script>
           
           <script type='text/javascript' src='js/underscore-min.js'></script>
 
           <script type='text/javascript' src='js/backbone-min.js'></script>
 
-          <script type="text/javascript" src='js/fileuploader'></script>
+          <script type="text/javascript" src='js/fileuploader.js'></script>
 
           <script type="text/javascript" src='js/app.js'></script>
 
           <script src="js/foundation/modernizr.foundation.js"></script>
           
-<!--          <script type='text/javascript' src="js/foundation/jquery.reveal.js" ></script>-->
+          <?php else : ?>
+          
+          <?php //Assets::clear_cache(); ?>
+          
+          <?php Assets::js(array('jquery.js', 'underscore-min.js' , 'backbone-min.js'  , 'fileuploader.js' , 'app.js' , 'foundation/modernizr.foundation.js')); ?>
+          
+          <?php endif; ?>
 
           <!-- IE Fix for HTML5 Tags -->
           <!--[if lt IE 9]>
