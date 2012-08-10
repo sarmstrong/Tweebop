@@ -69,7 +69,7 @@ class Store extends CI_Controller {
 
                //$screen_name = $id; 
 
-               $artist_lookup = $this->get_screen_name($screen_name);
+               $artist_lookup = $this->get_screen_name(trim($screen_name));
 
 
 
@@ -248,7 +248,7 @@ class Store extends CI_Controller {
 
           $params = array("name" => urldecode($screen_name), 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json');
 
-          $artist = $this->cache->library('rest', 'get', array('api/v4/artist/twitter', $params), 100000);
+          $artist = $this->cache->library('rest', 'get', array('api/v4/artist/twitter', $params), 2629740);
 
 
           if ($artist->response->status->code === 0) {
@@ -395,6 +395,7 @@ class Store extends CI_Controller {
                               if ($this->get_rate_limit() == true) {
 
                                    $errors .= "<li>" . $v . " We Exceeded Twitters stupid rate limit. Sorry!</li>";
+                                   
                               } else if (count($to_add) + count($current_length) < 500) {
 
 
@@ -450,12 +451,17 @@ class Store extends CI_Controller {
           }
      }
 
-     public function cacheTop($offset) {
+     public function cacheTop($encryption_key) {
 
           /// Called by CRON
-
+          
           $this->config->load('echo_nest');
-
+           
+          
+          if ($encryption_key != $this->config->item('cron_key'))
+               
+               die('Access Denied');       
+               
           $key = $this->config->item('echo_nest_key');
 
           $this->load->spark('restclient/2.1.0');
@@ -464,7 +470,7 @@ class Store extends CI_Controller {
 
           $this->rest->initialize(array('server' => 'http://developer.echonest.com/'));
 
-          $params = array("results" => '90', 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json', 'start' => $offset);
+          $params = array("results" => '67', 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json', 'start' => date('j') * 67);
 
           $hot = $this->rest->get("api/v4/artist/top_hottt", $params);
 
