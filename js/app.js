@@ -52,7 +52,9 @@ $(document).ready(function() {
                 
                 if (options.index == collection.length - 1) {
                     
-                    var hide = this.where({hidden : true}); 
+                    var hide = this.where({
+                        hidden : true
+                    }); 
                     
                     if (hide.length === this.length) {
                         
@@ -405,7 +407,9 @@ $(document).ready(function() {
                 
                 if (options.index == collection.length - 1) {
                     
-                    var hide = this.where({hidden : true}); 
+                    var hide = this.where({
+                        hidden : true
+                    }); 
                     
                     if (hide.length === this.length) {
                         
@@ -714,11 +718,19 @@ $(document).ready(function() {
      *
      */
     
+    var echoNestLookup = Backbone.Model.extend({
+        
+        ///urlRoot : 
+        
+        })
+    
     var itunesUpload = Backbone.View.extend({
         
         el : $("#library-upload") , 
         
+        queue : null,
         
+        current_item : 0,
         
         initialize : function() {  
             
@@ -732,30 +744,85 @@ $(document).ready(function() {
         
         updateResults : function (json) {
             
-            if (json.twitter_success === true) {
-                
-                this.$el.find('#results').fadeIn();
-                
-                $(".not-found ul").append(json.not_found);
+            this.queue = json.artists;
             
-                $('.found ul').append(json.found);
+            this.fetchArtist(this.current_item);
+            
+            $("#results").fadeIn(); 
+            
+        } , 
+        
+        fetchArtist : function (num) {
+            
+            var obj = this;
+            
+            $("#processing").text("Looking up " + this.queue[num]);
+            
+            $.ajax({
                 
-                list.clear(); 
+                type : 'POST', 
                 
-                artists.cursor = -1;
+                url : 'index.php/store/echo_nest_lookup', 
                 
-                fetchArtists(true);  
+                data : {
+                    
+                    artist : this.queue[num]
+                }, 
+                
+                dataType: 'json',
+                
+                success : function (data, textStatus, jqXHR) {
+                    
+                    obj.processLookup(data);
+                    
+                }
+                
+            })
+            
+        } , 
+        
+        processLookup : function(data) {
+            
+            if (data.success === false) {
+                
+                if (data.error_code === 3) {
+                    
+                    alert("time-out")
+                    
+                    return false;
+                    
+                } else if (data.error_code === 5) {
+                    
+                    $(".not-found ul").append("<li>We couldn't find <strong>" + data.artist_lookup + "</strong>.</li>").fadeIn(); 
+                    
+                } else {
+                    
+                    $(".not-found ul").append("<li>We couldn't find a twitter handle for <strong>" + data.artist_lookup + "</strong>!</li>").fadeIn();
+                    
+                }
+                
                 
             } else {
                 
-                this.$el.find('.error').html(json.twitter_error);
+                $(".found ul").append("<li><strong>" + data.artist_lookup + "</strong> @" + data.screen_name + "</li>").fadeIn();
                 
             }
-
-                      
+            
+            this.current_item++; 
+            
+            if (this.current_item < this.queue.length) {
+                
+                this.fetchArtist(this.current_item);
+                
+            } else {
+                
+                $("#processing").text("Finished!");
+                
+            }
         
-        }  
-        
+    
+        }
+          
         
     })
     
@@ -794,6 +861,10 @@ $(document).ready(function() {
             itunes_upload.$el.find('.error p').text(''); 
             
             itunes_upload.$el.find('.error').hide();
+            
+            $(".not-found ul").html('');
+            
+            $('.found ul').html('');
             
         }
 
@@ -1094,8 +1165,4 @@ $(document).ready(function() {
     
     }
     
-}); 
-
-
-
-
+});

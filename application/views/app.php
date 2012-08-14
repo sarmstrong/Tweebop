@@ -201,7 +201,7 @@
 
                     <div class="columns twelve">
 
-                         <h4>Upload Results!</h4>  
+                         <h4 id='processing'></h4>  
 
                     </div>
 

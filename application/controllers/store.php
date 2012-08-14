@@ -26,7 +26,7 @@ class Store extends CI_Controller {
           //echo $this->uri->segment(2);
 
           if (!isset($public_methods[$this->uri->segment(2)])) {
-               
+
 
                if ($this->session->userdata('access_token') && $this->session->userdata('access_token_secret')) {
 
@@ -45,7 +45,6 @@ class Store extends CI_Controller {
 
                     exit();
                }
-               
           }
      }
 
@@ -231,8 +230,23 @@ class Store extends CI_Controller {
 
           echo json_encode($timeline);
      }
+     
+     public function echo_nest_lookup() {
+          
+          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+               
+               $response = $this->get_screen_name($_POST['artist']); 
+               
+               $response['artist_lookup'] = $_POST['artist']; 
+               
+               echo json_encode($response); 
+               
+          }
+          
+          
+     }
 
-     public function get_screen_name($screen_name) {
+     private function get_screen_name($screen_name) {
 
           $this->config->load('echo_nest');
 
@@ -249,7 +263,7 @@ class Store extends CI_Controller {
           $params = array("name" => urldecode($screen_name), 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json');
 
           $artist = $this->cache->library('rest', 'get', array('api/v4/artist/twitter', $params), 2629740);
-
+          
 
           if ($artist->response->status->code === 0) {
 
@@ -258,6 +272,7 @@ class Store extends CI_Controller {
                     $response = array("success" => false, "error" => 'We can\'t find that twitter handle, sorry!');
 
                     return $response;
+                    
                } else {
 
                     $response = array("success" => true, "screen_name" => $artist->response->artist->twitter);
@@ -266,7 +281,7 @@ class Store extends CI_Controller {
                }
           } else {
 
-               $response = array("success" => false, "error" => $artist->response->status->message);
+               $response = array("success" => false, "error" => $artist->response->status->message , "error_code" => $artist->response->status->code);
 
                if ($artist->response->status->code === 3) {
 
@@ -303,11 +318,11 @@ class Store extends CI_Controller {
 
      public function library() {
 
-          ///$this->benchmark->mark('start');
-
           $this->load->helper('url');
 
           $this->load->helper('xml');
+
+          //$path = file_get_contents("http://localhost/~stevearmstrong/tweebop/docs/library.xml", 'r');
 
           if (empty($_GET['qqfile'])) {
 
@@ -316,59 +331,24 @@ class Store extends CI_Controller {
                return json_encode($error);
           };
 
-
-
           $path = file_get_contents("php://input", "r");
 
 
-          //$path = file_get_contents(base_url() . '/docs/library.xml' , "SimpleXMLElement"); 
+          $artists = $this->parseItunes($path);
 
 
-          $parse = $this->parseItunes($path);
-
-
-          $flattened = array_keys($parse['to_add']);
-
-          $result['twitter_error'] = '';
-
-          for ($i = 0; $i < count($flattened); $i += 100) {
-
-               $batch = implode(',', array_slice($flattened, $i, 100));
-
-               $params = array('slug' => $this->user . "-tweebop", "owner_screen_name" => $this->user, "screen_name" => $batch);
-
-               $create = $this->twitteroauth->post('lists/members/create_all', $params);
-
-               if (!empty($create->errors)) {
-
-                    $result['twitter_error'] .= "Twitter error: " . $create->errors[0]->message . " <br />";
-               }
-          }
-
-          $result['twitter_error'] === '' ? $result['twitter_success'] = true : $result['twitter_success'] = false;
-
-          $result['total'] = count($parse['to_add']);
-
-          $result['success'] = true;
-
-          $result['found'] = $parse['found'];
-
-          $result['not_found'] = $parse['not_found'];
-
-          echo json_encode($result);
+          $response['artists'] = array_keys($artists);
+          
+          $response['success'] = 'true';
+          
+          echo json_encode($response);
+          
+          
      }
 
      private function parseItunes($path) {
 
           $current_length = count(json_decode($this->fetch('return')));
-
-          $errors = '';
-
-          $found = '';
-
-          $to_add = array();
-
-          /// Track artists to prevent duplicates          
 
           $artists = array();
 
@@ -389,53 +369,36 @@ class Store extends CI_Controller {
                          if (!isset($artists[trim($v)])) {
 
                               $artists[trim($v)] = true;
-
-                              /// Twitter only all allows lists to be 500 members long
-
-                              if ($this->get_rate_limit() == true) {
-
-                                   $errors .= "<li>" . $v . " We Exceeded Twitters stupid rate limit. Sorry!</li>";
-                                   
-                              } else if (count($to_add) + count($current_length) < 500) {
-
-
-
-                                   $artist_lookup = $this->get_screen_name($v);
-
-                                   if ($artist_lookup['success'] === false) {
-
-                                        $errors .= "<li><strong>" . $v . "</strong>: " . $artist_lookup['error'] . "</li>";
-                                   } else {
-
-                                        /// Some librarys may have artists listed multiple ways, 
-                                        /// Such as "The Roots, featuring Mos Def"
-                                        /// Echo nest will return a valid result for these entriess
-
-                                        if (!isset($to_add[$artist_lookup['screen_name']])) {
-
-                                             $to_add[$artist_lookup['screen_name']] = true;
-
-                                             $found .= "<li><strong>$v</strong> @" . $artist_lookup['screen_name'] . "</li>";
-                                        }
-                                   }
-                              } else {
-
-                                   $errors .= "<li>" . $v . " not added. Exceeded 500 member list limit.</li>";
-                              }
                          }
                     }
                }
           }
 
-          $result = array();
 
-          $result['found'] = $found;
+          return $artists;
+     }
 
-          $result['not_found'] = $errors;
+     public function batchTwitterListAdd($list) {
 
-          $result['to_add'] = $to_add;
+          $result['twitter_error'] = '';
 
-          return $result;
+          for ($i = 0; $i < count($list); $i += 100) {
+
+               $batch = implode(',', array_slice($list, $i, 100));
+
+               $params = array('slug' => $this->user . "-tweebop", "owner_screen_name" => $this->user, "screen_name" => $batch);
+
+               $create = $this->twitteroauth->post('lists/members/create_all', $params);
+
+               if (!empty($create->errors)) {
+
+                    $result['twitter_error'] .= "Twitter error: " . $create->errors[0]->message . " <br />";
+               }
+          }
+
+          $result['twitter_error'] === '' ? $result['twitter_success'] = true : $result['twitter_success'] = false;
+
+          echo json_encode($result);
      }
 
      public function get_rate_limit() {
@@ -454,14 +417,13 @@ class Store extends CI_Controller {
      public function cacheTop($encryption_key) {
 
           /// Called by CRON
-          
+
           $this->config->load('echo_nest');
-           
-          
+
+
           if ($encryption_key != $this->config->item('cron_key'))
-               
-               die('Access Denied');       
-               
+               die('Access Denied');
+
           $key = $this->config->item('echo_nest_key');
 
           $this->load->spark('restclient/2.1.0');
