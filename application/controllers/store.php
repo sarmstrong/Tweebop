@@ -378,9 +378,12 @@ class Store extends CI_Controller {
           return $artists;
      }
 
-     public function batchTwitterListAdd($list) {
+     public function batch_twitter_list_add() {
 
           $result['twitter_error'] = '';
+          
+          $list = explode(',', $_POST['list']);
+          
 
           for ($i = 0; $i < count($list); $i += 100) {
 

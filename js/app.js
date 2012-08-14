@@ -257,7 +257,7 @@ $(document).ready(function() {
         
         clear: function () {
             
-            artistList.html("")
+            this.$el.html("")
             
         }
         
@@ -730,6 +730,8 @@ $(document).ready(function() {
         
         queue : null,
         
+        current_list : null, 
+        
         current_item : 0,
         
         initialize : function() {  
@@ -745,6 +747,8 @@ $(document).ready(function() {
         updateResults : function (json) {
             
             this.queue = json.artists;
+            
+            this.current_list = [];
             
             this.fetchArtist(this.current_item);
             
@@ -787,7 +791,7 @@ $(document).ready(function() {
                 
                 if (data.error_code === 3) {
                     
-                    alert("time-out")
+                    this.systemTimeout();
                     
                     return false;
                     
@@ -804,6 +808,14 @@ $(document).ready(function() {
                 
             } else {
                 
+                if ($.inArray(data.screen_name , this.current_list) === -1) {
+                    
+                    console.log(data.screen_name); 
+                    
+                    this.current_list.push(data.screen_name);
+                    
+                }
+                
                 $(".found ul").append("<li><strong>" + data.artist_lookup + "</strong> @" + data.screen_name + "</li>").fadeIn();
                 
             }
@@ -816,11 +828,94 @@ $(document).ready(function() {
                 
             } else {
                 
-                $("#processing").text("Finished!");
+                $("#processing").text("Adding to list . . .");
+                
+                this.updateTwitterList(); 
                 
             }
-        
     
+        } , 
+        
+        updateTwitterList : function () { 
+            
+            var obj = this; 
+        
+            $.ajax({
+                
+                type : "POST", 
+                
+                url : "index.php/store/batch_twitter_list_add", 
+                
+                data : {
+                    
+                    list : this.current_list.join(',')
+                    
+                } , 
+                
+                dataType: 'json', 
+                
+                success : function (data) { 
+                
+                    obj.fetchList(data); 
+                
+                }
+                
+            })
+        
+        } , 
+        
+        
+        fetchList : function(json) {
+            
+            if (json.twitter_success === true) {
+                
+                list.clear();
+                
+                $("#processing").text("Finished!!!"); 
+                
+                artists.cursor = -1;
+                
+                artists.reset(); 
+                
+                fetchArtists(true);  
+                
+            } else {
+                
+                this.$el.find('.error').html(json.twitter_error);
+                
+            }
+    
+        }, 
+        
+        systemTimeout : function() {
+    
+            var t = setInterval(timer , 1000);
+    
+            var inc = 61; 
+            
+            var obj = this;
+            
+            $("#processing").html("We experiencing a time-out. Wait <span id='seconds'>60</span> seconds");
+  
+            function timer() {
+      
+                inc--; 
+      
+                if (inc >= 0 ) {
+                    
+                    $("#seconds").text(inc); 
+        
+        
+                } else {
+       
+                    clearInterval(t);
+                    
+                    obj.fetchArtist(obj.current_item);
+        
+                }
+      
+            }
+            
         }
           
         
@@ -872,10 +967,10 @@ $(document).ready(function() {
     
     
     /*
-     * 
-     * Search Components
-     * 
-     */
+         * 
+         * Search Components
+         * 
+         */
     
     
     var artistSearch = Backbone.View.extend({
@@ -998,10 +1093,10 @@ $(document).ready(function() {
    
     
     /*
-     *
-     * Utils 
-     * 
-     */
+         *
+         * Utils 
+         * 
+         */
     
     var filter = { 
     
@@ -1055,10 +1150,10 @@ $(document).ready(function() {
     
     
     /*
-     * 
-     * Create Initial View Object
-     * 
-     */
+         * 
+         * Create Initial View Object
+         * 
+         */
     
     var list = new artistList(); 
     
@@ -1075,11 +1170,11 @@ $(document).ready(function() {
     //var count = new loadedTweets(); 
     
     /*
-     * 
-     * Basic UI Functionality
-     * 
-     * 
-     */
+         * 
+         * Basic UI Functionality
+         * 
+         * 
+         */
     
     
     $(".inner-panel").hide();   
@@ -1105,12 +1200,12 @@ $(document).ready(function() {
     })
     
     /*
-     * 
-     * Initial call to populate artist list and
-     * Prompt to add artists (if artist list is empty)
-     * or load tweets from list
-     * 
-     */
+         * 
+         * Initial call to populate artist list and
+         * Prompt to add artists (if artist list is empty)
+         * or load tweets from list
+         * 
+         */
     
     
     fetchArtists(true); 
@@ -1122,6 +1217,7 @@ $(document).ready(function() {
             add: true  ,
         
             data : {
+                
                 cursor : artists.cursor
             }, 
             
