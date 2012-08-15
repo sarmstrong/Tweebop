@@ -877,7 +877,7 @@ $(document).ready(function() {
                 
                 artists.reset(); 
                 
-                fetchArtists(true);  
+                fetchArtists();  
                 
             } else {
                 
@@ -895,7 +895,7 @@ $(document).ready(function() {
             
             var obj = this;
             
-            $("#processing").html("We experiencing a time-out. Wait <span id='seconds'>60</span> seconds");
+            $("#processing").html("We experiencing a time-out. Wait <span class='time'><span id='seconds'>60</span> seconds</span>");
   
             function timer() {
       
@@ -1246,7 +1246,7 @@ $(document).ready(function() {
                     
                     app_init = true;
                     
-                }
+                } 
                 
             }, 
             

@@ -3928,36 +3928,41 @@ div.panel {
 }
 
 /* line 721, ../sass/app.scss */
+.time {
+  color: #629632;
+}
+
+/* line 727, ../sass/app.scss */
 #tweets h5 span {
   color: #79cae3;
 }
 
-/* line 727, ../sass/app.scss */
+/* line 733, ../sass/app.scss */
 .date, footer p, footer a {
   color: #aaa;
 }
 
-/* line 735, ../sass/app.scss */
+/* line 741, ../sass/app.scss */
 header a, #artist-list .active p a, #artist-list .active h6 a {
   color: white;
 }
 
-/* line 741, ../sass/app.scss */
+/* line 747, ../sass/app.scss */
 #artist-list h6 a {
   color: #777;
 }
 
-/* line 747, ../sass/app.scss */
+/* line 753, ../sass/app.scss */
 .splash h3 {
   color: #555;
 }
 
-/* line 753, ../sass/app.scss */
+/* line 759, ../sass/app.scss */
 .found h6 {
   color: #629632;
 }
 
-/* line 759, ../sass/app.scss */
+/* line 765, ../sass/app.scss */
 .not-found h6 {
   color: red;
 }

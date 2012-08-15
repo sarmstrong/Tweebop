@@ -116,10 +116,20 @@
                     <input placeholder="Artist Name"  class="columns nine" type='text' name='artist-query' id='artist-query' />
 
                     <input class="columns three button postfix" type='submit' id='artist-lookup' value="Add Artist" />
-
-
+                    
+                    
+                    
+                    
 
                </form>
+               
+               <hr />
+               
+               <div class="columns twelve">
+                    
+                    <h4><a  class="panel-button" rel="#library-upload">. . . Or Upload Your Itunes Library!</a></h4>
+                    
+               </div>
 
 
 
