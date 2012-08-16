@@ -118,8 +118,6 @@
                     <input class="columns three button postfix" type='submit' id='artist-lookup' value="Add Artist" />
                     
                     
-                    
-                    
 
                </form>
                

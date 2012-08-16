@@ -779,7 +779,9 @@ $(document).ready(function() {
                     
                     obj.processLookup(data);
                     
-                }
+                } 
+                
+                
                 
             })
             
@@ -858,7 +860,7 @@ $(document).ready(function() {
                 
                     obj.fetchList(data); 
                 
-                }
+                } 
                 
             })
         
@@ -942,7 +944,6 @@ $(document).ready(function() {
         },  
 
         showMessage : function (message) { 
-            
             
             itunes_upload.$el.find('.error p').text(message); 
             

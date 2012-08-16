@@ -230,20 +230,17 @@ class Store extends CI_Controller {
 
           echo json_encode($timeline);
      }
-     
+
      public function echo_nest_lookup() {
-          
+
           if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-               
-               $response = $this->get_screen_name($_POST['artist']); 
-               
-               $response['artist_lookup'] = $_POST['artist']; 
-               
-               echo json_encode($response); 
-               
+
+               $response = $this->get_screen_name($_POST['artist']);
+
+               $response['artist_lookup'] = $_POST['artist'];
+
+               echo json_encode($response);
           }
-          
-          
      }
 
      private function get_screen_name($screen_name) {
@@ -263,7 +260,7 @@ class Store extends CI_Controller {
           $params = array("name" => urldecode($screen_name), 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json');
 
           $artist = $this->cache->library('rest', 'get', array('api/v4/artist/twitter', $params), 2629740);
-          
+
 
           if ($artist->response->status->code === 0) {
 
@@ -272,7 +269,6 @@ class Store extends CI_Controller {
                     $response = array("success" => false, "error" => 'We can\'t find that twitter handle, sorry!');
 
                     return $response;
-                    
                } else {
 
                     $response = array("success" => true, "screen_name" => $artist->response->artist->twitter);
@@ -281,7 +277,7 @@ class Store extends CI_Controller {
                }
           } else {
 
-               $response = array("success" => false, "error" => $artist->response->status->message , "error_code" => $artist->response->status->code);
+               $response = array("success" => false, "error" => $artist->response->status->message, "error_code" => $artist->response->status->code);
 
                if ($artist->response->status->code === 3) {
 
@@ -318,6 +314,17 @@ class Store extends CI_Controller {
 
      public function library() {
 
+          $this->load->spark('cache/2.0.0');
+
+          if ($this->cache->get($this->user) === 'FILE-UPLOAD-SUCCESS') {
+
+               $error = array("error" => "You can only upload your iTunes library once per hour." , 'success' => false);
+
+               echo json_encode($error);
+               
+               return false;
+          }
+
           $this->load->helper('url');
 
           $this->load->helper('xml');
@@ -326,24 +333,22 @@ class Store extends CI_Controller {
 
           if (empty($_GET['qqfile'])) {
 
-               $error = array("error" => "There was an error in uploading this file or you are accessing this page in an unconventional way. ");
+               $error = array("error" => "There was an error in uploading this file or you are accessing this page in an unconventional way. "  , 'success' => false);
 
-               return json_encode($error);
+               echo json_encode($error);
+               
+               return false;
           };
 
           $path = file_get_contents("php://input", "r");
-
-
+          
           $artists = $this->parseItunes($path);
 
-
           $response['artists'] = array_keys($artists);
-          
+
           $response['success'] = 'true';
-          
+
           echo json_encode($response);
-          
-          
      }
 
      private function parseItunes($path) {
@@ -378,12 +383,18 @@ class Store extends CI_Controller {
           return $artists;
      }
 
+     public function cacheTest() {
+          
+     }
+
      public function batch_twitter_list_add() {
 
+          $this->load->spark('cache/2.0.0');
+
           $result['twitter_error'] = '';
-          
+
           $list = explode(',', $_POST['list']);
-          
+
 
           for ($i = 0; $i < count($list); $i += 100) {
 
@@ -396,6 +407,11 @@ class Store extends CI_Controller {
                if (!empty($create->errors)) {
 
                     $result['twitter_error'] .= "Twitter error: " . $create->errors[0]->message . " <br />";
+               } else {
+
+                    /// Everything was successful, user must wait an hour before uploading another library
+
+                    $this->cache->write('FILE-UPLOAD-SUCCESS', $this->user, 3600);
                }
           }
 
