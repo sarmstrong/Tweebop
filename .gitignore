@@ -1,8 +1,5 @@
-application/cache/
+application/cache/*
+application/cache/rest/*
 .sass-cache/
-application/config/database.php
-application/config/config.php
-application/config/echo_nest.php
-application/config/twitter.php
 docs/
-
+!.gitignore
