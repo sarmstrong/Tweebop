@@ -20,6 +20,7 @@
  */
 // Switch environment based on global var
 if (isset($_SERVER['PLATFORM']))
+     
 {
     switch ($_SERVER['PLATFORM']) {
  
@@ -29,10 +30,13 @@ if (isset($_SERVER['PLATFORM']))
     // add additional cases for more environments
     }
 }
+
 else
+     
 {
     define('ENVIRONMENT', 'development');
 }
+
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
