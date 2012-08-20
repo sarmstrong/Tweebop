@@ -5,3 +5,4 @@ web1: #component type & number
     - application/logs
   php_extensions:
     - mysql
+    - curl
