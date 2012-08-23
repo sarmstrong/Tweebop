@@ -447,9 +447,11 @@ class Store extends CI_Controller {
 
           $this->rest->initialize(array('server' => 'http://developer.echonest.com/'));
 
-          $params = array("results" => '67', 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json', 'start' => date('j') * 67);
+          $params = array("results" => '29', 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json', 'start' => date('j') * 29);
 
           $hot = $this->rest->get("api/v4/artist/top_hottt", $params);
+          
+          //var_dump($hot);
 
           foreach ($hot->response->artists as $artist) {
 
