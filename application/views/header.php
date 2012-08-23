@@ -30,7 +30,7 @@
 
           <script src="js/foundation/modernizr.foundation.js"></script>
           
-          <?php else : ?>
+          <?php elseif (ENVIRONMENT === 'production') : ?>
           
           <?php //Assets::clear_cache(); ?>
           

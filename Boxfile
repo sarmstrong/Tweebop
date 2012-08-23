@@ -3,6 +3,7 @@ web1: #component type & number
   shared_writable_dirs:
     - application/cache
     - application/logs
+    - assets_cache/
   php_extensions:
     - mysql
     - curl
