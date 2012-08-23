@@ -5,7 +5,7 @@
           <div class="columns eight">
                
                <p>
-                    Built with Backbone.js and Zurb Foundation | Code Available on GitHub
+                    Built with Backbone.js and Zurb Foundation | Powered by <a href="http://developer.echonest.com/">Echo Nest </a> and Twitter
                     
                </p>
                

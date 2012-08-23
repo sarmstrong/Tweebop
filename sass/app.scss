@@ -8,23 +8,30 @@ Basic Layout
 
 @import 'settings';
 
-@import "foundation/base";
+// global import - for debuggings
+//@import "foundation";
 
-@import "foundation/globals";
+///global
+@import "foundation/settings";
+@import "foundation/functions/all";
+@import "foundation/common/globals";
+@import "foundation/mixins/clearfix";
 
-@import "foundation/typography";
 
-@import "foundation/grid";
+///mixins
+@import "foundation/mixins/css-triangle";
+@import "foundation/mixins/font-size";
+@import "foundation/mixins/respond-to";
+@import "foundation/mixins/semantic-grid";
 
-@import "foundation/ui";
-
-@import "foundation/tabs";
-
-@import "foundation/navbar";
-
-@import "foundation/buttons";
-
-@import "foundation/forms";
+/// components
+@import "foundation/components/grid";
+@import "foundation/common/typography";
+@import "foundation/common/forms";
+@import "foundation/components/modules/buttons";
+@import "foundation/components/modules/tabs";
+@import "foundation/components/modules/ui";
+@import "foundation/components/modules/navbar";
 
 $footer-height: 35px;
 
@@ -650,7 +657,7 @@ p ,  {
 	
 	margin-bottom: 5px;
 	
-	line-height: 1.3em;
+	line-height: 1.2em;
 	
 }
 
@@ -705,6 +712,12 @@ h4 {
 	font-weight: bold;
 	
 	
+	
+}
+
+#side-panel .user-data h6 {
+	
+	margin-top: -2px;
 	
 }
 
@@ -767,3 +780,4 @@ header a  , #artist-list .active p  a , #artist-list .active h6  a {
 	color: $alertColor;
 	
 }
+

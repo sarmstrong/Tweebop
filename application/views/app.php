@@ -1,5 +1,3 @@
-
-
 <header >
 
      <div class="row">
@@ -37,8 +35,9 @@
 
                     <img src="<?php echo $user[0]->profile_image_url ?>" />
 
-                    <h5>Welcome<br /><a href='https://twitter.com/#!/<?php echo $user[0]->screen_name ?>'>@<?php echo $user[0]->screen_name ?></a></h5>
-
+                    <h5>Welcome<br />@<?php echo $user[0]->screen_name ?></h5>
+                    
+                    <h6 style="display: none" id="twitter-list-link" ><a href="https://twitter.com/#!/<?php echo $user[0]->screen_name ?>/<?php echo $user[0]->screen_name ?>-tweebop" target="_blank">- Your List on Twitter</a></h6>
                </div>
 
 

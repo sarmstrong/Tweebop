@@ -1,107 +1,66 @@
-/* Requires:
-   normalize.css
-   -box-sizing.htc */
-/* Global Reset & Standards ---------------------- */
-/* line 7, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
+/*
+Syntax error: File to import not found or unreadable: foundation/globals.
+              Load paths:
+                /Users/stevearmstrong/Sites/tweebop/sass
+                /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/blueprint/stylesheets
+                /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets
+                /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sassy-math-1.2/stylesheets
+                /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-1.0.2/stylesheets
+                /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.9/scss
+                Compass::SpriteImporter
+        on line 3 of /Users/stevearmstrong/Sites/tweebop/sass/foundation-style/globals.scss
 
-/* line 8, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-html {
-  font-size: 62.5%;
-}
+1: /Users/stevearmstrong/Sites/tweebop/sass/foundation-style/globals.scss
 
-/* line 9, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-body {
-  background: white;
-  font-family: "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 14px;
-  font-size: 1.4rem;
-  line-height: 1;
-  color: #555555;
-  position: relative;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* Links ---------------------- */
-/* line 13, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-a {
-  color: #2ba6cb;
-  text-decoration: none;
-  line-height: inherit;
-}
-
-/* line 14, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-a:hover {
-  color: #2795b6;
-}
-
-/* line 15, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-a:focus {
-  color: #2ba6cb;
-  outline: none;
-}
-
-/* line 16, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-p a, p a:visited {
-  line-height: inherit;
-}
-
-/* Misc ---------------------- */
-/* line 20, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-.left {
-  float: left;
-}
-
-/* line 21, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-.right {
-  float: right;
-}
-
-/* line 22, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-.text-left {
-  text-align: left;
-}
-
-/* line 23, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-.text-right {
-  text-align: right;
-}
-
-/* line 24, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-.text-center {
-  text-align: center;
-}
-
-/* line 25, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-.hide {
-  display: none;
-}
-
-/* line 26, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-.highlight {
-  background: #77b8cb;
-}
-
-/* line 28, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-#googlemap img, object, embed {
-  max-width: none;
-}
-
-/* line 30, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-#map_canvas embed {
-  max-width: none;
-}
-
-/* line 31, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-#map_canvas img {
-  max-width: none;
-}
-
-/* line 32, ../../../../.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.5/stylesheets/foundation/globals.scss */
-#map_canvas object {
-  max-width: none;
-}
+Backtrace:
+/Users/stevearmstrong/Sites/tweebop/sass/foundation-style/globals.scss:3
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/import_node.rb:64:in `rescue in import'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/import_node.rb:42:in `import'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/import_node.rb:25:in `imported_file'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/perform.rb:227:in `rescue in visit_import'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/perform.rb:232:in `visit_import'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/base.rb:37:in `visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/perform.rb:98:in `visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/base.rb:53:in `map'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/perform.rb:107:in `block in visit_children'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/perform.rb:119:in `with_environment'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/perform.rb:106:in `visit_children'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/perform.rb:126:in `visit_root'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/base.rb:37:in `visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/perform.rb:98:in `visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/visitors/perform.rb:7:in `visit'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/tree/root_node.rb:20:in `render'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/engine.rb:315:in `_render'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sass-3.2.1/lib/sass/engine.rb:262:in `render'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:140:in `block (2 levels) in compile'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:126:in `timed'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:139:in `block in compile'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/logger.rb:45:in `red'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:138:in `compile'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:118:in `compile_if_required'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:103:in `block (2 levels) in run'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:101:in `each'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:101:in `block in run'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:126:in `timed'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/compiler.rb:100:in `run'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/commands/watch_project.rb:147:in `recompile'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/commands/watch_project.rb:68:in `perform'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/commands/base.rb:18:in `execute'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/commands/project_base.rb:19:in `execute'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/bin/compass:30:in `block in <top (required)>'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/bin/compass:44:in `call'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/bin/compass:44:in `<top (required)>'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/bin/compass:19:in `load'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/bin/compass:19:in `<main>'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/bin/ruby_noexec_wrapper:14:in `eval'
+/Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/bin/ruby_noexec_wrapper:14:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: File to import not found or unreadable: foundation/globals.\A               Load paths:\A                 /Users/stevearmstrong/Sites/tweebop/sass\A                 /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/blueprint/stylesheets\A                 /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/compass-0.12.2/frameworks/compass/stylesheets\A                 /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/sassy-math-1.2/stylesheets\A                 /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/modular-scale-1.0.2/stylesheets\A                 /Users/stevearmstrong/.rvm/gems/ruby-1.9.3-p194/gems/zurb-foundation-3.0.9/scss\A                 Compass::SpriteImporter\A         on line 3 of /Users/stevearmstrong/Sites/tweebop/sass/foundation-style/globals.scss\A \A 1: /Users/stevearmstrong/Sites/tweebop/sass/foundation-style/globals.scss"; }

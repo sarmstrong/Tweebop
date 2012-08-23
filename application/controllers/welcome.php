@@ -46,7 +46,7 @@ class Welcome extends CI_Controller {
           $this->load->library('rest');
 
           $this->load->spark('cache/2.0.0');
-          
+
           $this->load->spark('assets/1.5.0');
 
           if ($this->session->userdata('access_token') && $this->session->userdata('access_token_secret')) {
@@ -56,8 +56,6 @@ class Welcome extends CI_Controller {
                $params = "screen_name=" . $this->session->userdata('twitter_screen_name');
 
                $data['user'] = $this->cache->library('rest', 'get', array('1/users/lookup.json', $params), 4320);
-
-               //var_dump($data['user']);
 
                $this->load->view("header");
 
@@ -71,8 +69,6 @@ class Welcome extends CI_Controller {
                $this->load->view("splash");
 
                $this->load->view("footer");
-
-               
           }
      }
 

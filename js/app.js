@@ -1208,8 +1208,11 @@ $(document).ready(function() {
          * 
          */
     
+    var app_init = false; 
     
-    fetchArtists(true); 
+    
+    fetchArtists(true);
+    
     
     function fetchArtists(refresh) { 
         
@@ -1242,6 +1245,12 @@ $(document).ready(function() {
                     } else {
 
                         $("#add-new").fadeIn(); 
+                        
+                    }
+                    
+                    if (app_init === false) {
+                        
+                        $("#twitter-list-link").fadeIn(); 
                         
                     }
                     

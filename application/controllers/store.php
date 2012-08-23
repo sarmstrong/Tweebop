@@ -35,6 +35,7 @@ class Store extends CI_Controller {
                     $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'), $this->session->userdata('access_token'), $this->session->userdata('access_token_secret'));
 
                     $this->user = $this->session->userdata('twitter_screen_name');
+                    
                } else {
 
 // Unknown user
@@ -84,15 +85,9 @@ class Store extends CI_Controller {
                }
 
 
-
-
                $params = array('slug' => $this->user . "-tweebop", "owner_screen_name" => $this->user, "screen_name" => $artist_twitter_name);
 
                $create = $this->twitteroauth->post('lists/members/create', $params);
-
-
-
-               //var_dump($create); 
 
                if (!empty($create->error)) {
 
@@ -101,9 +96,8 @@ class Store extends CI_Controller {
                     echo json_encode($error);
 
                     return false;
+                    
                } else {
-
-
 
                     $profile = $this->get_twitter_user($artist_twitter_name);
 
@@ -178,11 +172,13 @@ class Store extends CI_Controller {
 
                     return json_encode($list);
                }
+               
           } else {
 
                if ($method == 'echo') {
 
                     echo json_encode($list);
+                    
                } else {
 
                     return json_encode($list);
