@@ -7,3 +7,6 @@ web1: #component type & number
   php_extensions:
     - mysql
     - curl
+global:
+  env:
+    - PLATFORM: PAGODA
