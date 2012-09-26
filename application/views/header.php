@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
      <head>
-          <title></title>
+          <title>Tweebop</title>
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
           <link href="stylesheets/fileuploader.css" media="screen, projection" rel="stylesheet" type="text/css" />

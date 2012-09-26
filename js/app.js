@@ -21,8 +21,6 @@ $(document).ready(function() {
         
         }, 
         
-        
-        
         urlRoot: 'index.php/store/artist' , 
         
         idAttribute : "screen_name"

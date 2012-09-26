@@ -159,7 +159,7 @@ class Store extends CI_Controller {
 
           if (!empty($list->errors)) {
 
-               $create_list = array('name' => $this->user . "-tweebop", 'mode' => 'public', 'description' => 'A collection of my favorite artists that I created on TweeBop!');
+               $create_list = array('name' => $this->user . "-tweebop", 'mode' => 'public', 'description' => 'A collection of my favorite artists that I created on TweeBop! http://tweebop.pagodabox.com/');
 
                $auth = $this->twitteroauth->post('lists/create', $create_list);
 
