@@ -329,7 +329,7 @@
 
           <a class='toggle-tweets' ><img src="<%= profile_image_url %>" /></a>
 
-          <h6><a class='toggle-tweets' ><%= name %></a></h6><p><a class="action remove">X Clear</a></p>
+          <h6><a class='toggle-tweets' ><%= name %></a></h6><p><a class="action remove">X Remove</a></p>
 
      </div>
 

@@ -51,12 +51,6 @@ class Store extends CI_Controller {
 
      public function artist($id = NULL) {
 
-          if ($this->get_rate_limit() == true) {
-
-               echo $this->rate_limit_error_msg;
-
-               exit();
-          }
 
           $this->load->spark('cache/2.0.0');
 
@@ -71,18 +65,17 @@ class Store extends CI_Controller {
 
                $artist_lookup = $this->get_screen_name(trim($screen_name));
 
-
-
-
                if ($artist_lookup['success'] === false) {
 
                     echo json_encode($artist_lookup);
 
                     return false;
+                    
                } else {
 
                     $artist_twitter_name = $artist_lookup['screen_name'];
                }
+               
 
 
                $params = array('slug' => $this->user . "-tweebop", "owner_screen_name" => $this->user, "screen_name" => $artist_twitter_name);
@@ -106,9 +99,10 @@ class Store extends CI_Controller {
                          $error = array("error" => $profile->error);
 
                          echo json_encode($error);
+                    
                     } else {
 
-                         echo json_encode($profile[0]);
+                         echo json_encode($profile);
                     }
                }
           }
@@ -137,13 +131,8 @@ class Store extends CI_Controller {
      }
 
      public function fetch($method = 'echo') {
-
-          if ($this->get_rate_limit() == true) {
-
-               echo $this->rate_limit_error_msg;
-
-               exit();
-          }
+          
+         
 
           if (!empty($_GET['cursor'])) {
 
@@ -154,6 +143,13 @@ class Store extends CI_Controller {
           }
 
           $lookup = array('slug' => $this->user . "-tweebop", "owner_screen_name" => $this->user, "cursor" => $cursor);
+          
+          if ($this->get_rate_limit('/lists/members' , 'list') == true) {
+
+               echo $this->rate_limit_error_msg;
+
+               exit();
+          };
 
           $list = $this->twitteroauth->get('lists/members', $lookup);
 
@@ -168,6 +164,7 @@ class Store extends CI_Controller {
                if ($method == 'echo') {
 
                     echo json_encode($list);
+                    
                } else {
 
                     return json_encode($list);
@@ -175,7 +172,7 @@ class Store extends CI_Controller {
                
           } else {
 
-               if ($method == 'echo') {
+               if ($method === 'echo') {
 
                     echo json_encode($list);
                     
@@ -188,36 +185,42 @@ class Store extends CI_Controller {
 
      public function fetch_timeline() {
 
-          if ($this->get_rate_limit() == true) {
-
-               echo $this->rate_limit_error_msg;
-
-               exit();
-          }
-
-
-
           if ($_GET['type'] == 'tweets') {
 
                $lookup = array('include_entities' => 1, 'slug' => $_GET['slug'], "per-page" => 20, "owner_screen_name" => $_GET['owner_screen_name']);
 
                if (!empty($_GET['max_id']) != 0) {
 
-                    $lookup["max_id"] = intval($_GET['max_id']) - 1;
+                    $lookup["max_id"] = intval($_GET['max_id']) - 1; 
+               }
+               
+               if ($this->get_rate_limit('/lists/statuses' , 'list') == true) {
 
-                    //echo $lookup["max_id"] ; 
-                    //echo "<br /> 229687334071828480 <br />"; 
+                    echo $this->rate_limit_error_msg;
+
+                    exit();
                }
 
                $timeline = $this->twitteroauth->get('lists/statuses', $lookup);
+               
           } else if ($_GET['type'] == 'artist') {
 
                $lookup = array('include_entities' => 1, 'screen_name' => $_GET['screen_name'], "per-page" => 20);
+               
+               
 
                if (!empty($_GET['max_id']) != 0) {
 
                     $lookup["max_id"] = intval($_GET['max_id']) - 1;
                }
+               
+               if ($this->get_rate_limit('/statuses/user_timeline', 'statuses')) {
+                    
+                    echo $this->rate_limit_error_msg;
+
+                    exit();    
+                    
+               };
 
                $timeline = $this->twitteroauth->get('statuses/user_timeline', $lookup);
           }
@@ -416,13 +419,37 @@ class Store extends CI_Controller {
           echo json_encode($result);
      }
 
-     public function get_rate_limit() {
+     public function get_rate_limit($resource , $type) {
 
-          $status = $this->twitteroauth->get('account/rate_limit_status');
+          $status = $this->connection->get('application/rate_limit_status');
+          
+          switch ($type) {
+               
+               case "list" :
+                    
+                    $resources = $status->resources->lists;
+                    
+                    break;
+               
+               case "statuses" :
+                    
+                    $resources = $status->resources->statuses;
+                    
+                    break;
+               
+          }; 
+          
+          if (!empty($resources->$resource->remaining)) {
+               
+               $remaining = $resources->$resource->remaining; 
+               
+          }
+          
 
-          if ($status->remaining_hits <= 1) {
+          if ($remaining <= 1) {
 
                return true;
+               
           } else {
 
                return false;
