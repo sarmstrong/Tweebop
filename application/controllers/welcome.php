@@ -25,17 +25,26 @@ class Welcome extends CI_Controller {
           // Loading twitter configuration.
           $this->config->load('twitter');
 
-
+          $this->CONSUMER_KEY = $this->config->item('twitter_consumer_token'); 
+          
+          $this->CONSUMER_SECRET = $this->config->item('twitter_consumer_secret');
 
           if ($this->session->userdata('access_token') && $this->session->userdata('access_token_secret')) {
+               
                // If user already logged in
-               $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'), $this->session->userdata('access_token'), $this->session->userdata('access_token_secret'));
+               $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'), $this->session->userdata('access_token'), $this->session->userdata('access_token_secret'));                  
+               
           } elseif ($this->session->userdata('request_token') && $this->session->userdata('request_token_secret')) {
                // If user in process of authentication
                $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'), $this->session->userdata('request_token'), $this->session->userdata('request_token_secret'));
+               
+               
+               
           } else {
                // Unknown user
                $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'));
+               
+               
           }
      }
 
@@ -50,13 +59,27 @@ class Welcome extends CI_Controller {
           $this->load->spark('assets/1.5.0');
 
           if ($this->session->userdata('access_token') && $this->session->userdata('access_token_secret')) {
+                         
 
                $this->rest->initialize(array('server' => 'https://api.twitter.com/'));
 
-               $params = "screen_name=" . $this->session->userdata('twitter_screen_name');
-
-               $data['user'] = $this->cache->library('rest', 'get', array('1/users/lookup.json', $params), 4320);
-
+               $params = array("screen_name" => $this->session->userdata('twitter_screen_name'));  
+               
+               if (!$this->cache->get("screen_name=" . $this->session->userdata('twitter_screen_name'))) {
+                    
+                    $data['user'] = $this->connection->get('users/show', $params); 
+                    
+                    $this->cache->write( $data['user'] , "screen_name=" . $this->session->userdata('twitter_screen_name')); 
+                    
+                    
+               } else {
+                   
+                 $data['user']  = $this->cache->get("screen_name=" . $this->session->userdata('twitter_screen_name')); 
+                    
+               }
+               
+               
+               
                $this->load->view("header");
 
                $this->load->view("app", $data);
@@ -79,9 +102,7 @@ class Welcome extends CI_Controller {
       */
      public function auth() {
 
-          error_reporting(E_ALL);
-
-          ini_set('display_errors', '1');
+          
 
           if ($this->session->userdata('access_token') && $this->session->userdata('access_token_secret')) {
                // User is already authenticated. Add your user notification code here.
