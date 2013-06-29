@@ -35,7 +35,6 @@ class Store extends CI_Controller {
                     $this->connection = $this->twitteroauth->create($this->config->item('twitter_consumer_token'), $this->config->item('twitter_consumer_secret'), $this->session->userdata('access_token'), $this->session->userdata('access_token_secret'));
 
                     $this->user = $this->session->userdata('twitter_screen_name');
-                    
                } else {
 
 // Unknown user
@@ -70,12 +69,11 @@ class Store extends CI_Controller {
                     echo json_encode($artist_lookup);
 
                     return false;
-                    
                } else {
 
                     $artist_twitter_name = $artist_lookup['screen_name'];
                }
-               
+
 
 
                $params = array('slug' => $this->user . "-tweebop", "owner_screen_name" => $this->user, "screen_name" => $artist_twitter_name);
@@ -89,7 +87,6 @@ class Store extends CI_Controller {
                     echo json_encode($error);
 
                     return false;
-                    
                } else {
 
                     $profile = $this->get_twitter_user($artist_twitter_name);
@@ -99,7 +96,6 @@ class Store extends CI_Controller {
                          $error = array("error" => $profile->error);
 
                          echo json_encode($error);
-                    
                     } else {
 
                          echo json_encode($profile);
@@ -131,8 +127,8 @@ class Store extends CI_Controller {
      }
 
      public function fetch($method = 'echo') {
-          
-         
+
+
 
           if (!empty($_GET['cursor'])) {
 
@@ -143,8 +139,8 @@ class Store extends CI_Controller {
           }
 
           $lookup = array('slug' => $this->user . "-tweebop", "owner_screen_name" => $this->user, "cursor" => $cursor);
-          
-          if ($this->get_rate_limit('/lists/members' , 'list') == true) {
+
+          if ($this->get_rate_limit('/lists/members', 'list') == true) {
 
                echo $this->rate_limit_error_msg;
 
@@ -164,18 +160,15 @@ class Store extends CI_Controller {
                if ($method == 'echo') {
 
                     echo json_encode($list);
-                    
                } else {
 
                     return json_encode($list);
                }
-               
           } else {
 
                if ($method === 'echo') {
 
                     echo json_encode($list);
-                    
                } else {
 
                     return json_encode($list);
@@ -191,10 +184,10 @@ class Store extends CI_Controller {
 
                if (!empty($_GET['max_id']) != 0) {
 
-                    $lookup["max_id"] = intval($_GET['max_id']) - 1; 
+                    $lookup["max_id"] = intval($_GET['max_id']) - 1;
                }
-               
-               if ($this->get_rate_limit('/lists/statuses' , 'list') == true) {
+
+               if ($this->get_rate_limit('/lists/statuses', 'list') == true) {
 
                     echo $this->rate_limit_error_msg;
 
@@ -202,24 +195,22 @@ class Store extends CI_Controller {
                }
 
                $timeline = $this->twitteroauth->get('lists/statuses', $lookup);
-               
           } else if ($_GET['type'] == 'artist') {
 
                $lookup = array('include_entities' => 1, 'screen_name' => $_GET['screen_name'], "per-page" => 20);
-               
-               
+
+
 
                if (!empty($_GET['max_id']) != 0) {
 
                     $lookup["max_id"] = intval($_GET['max_id']) - 1;
                }
-               
+
                if ($this->get_rate_limit('/statuses/user_timeline', 'statuses')) {
-                    
+
                     echo $this->rate_limit_error_msg;
 
-                    exit();    
-                    
+                    exit();
                };
 
                $timeline = $this->twitteroauth->get('statuses/user_timeline', $lookup);
@@ -257,8 +248,16 @@ class Store extends CI_Controller {
           $this->rest->initialize(array('server' => 'http://developer.echonest.com/'));
 
           $params = array("name" => urldecode($screen_name), 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json');
+          
+          
 
           $artist = $this->cache->library('rest', 'get', array('api/v4/artist/twitter', $params), 2629740);
+          
+          if (empty($artist->response->status)) {
+               
+               $artist = json_decode($artist);
+               
+          }
 
 
           if ($artist->response->status->code === 0) {
@@ -299,30 +298,48 @@ class Store extends CI_Controller {
 
           $this->rest->initialize(array('server' => 'https://api.twitter.com/'));
 
-          $params = "screen_name=" . $screen_name;
+          $params = array("screen_name" => $screen_name);
 
-          $tweets = $this->cache->library('rest', 'get', array('1/users/lookup.json', $params), 43200);
+          if (!$this->cache->get("screen_name=" . $screen_name)) {
+               
+               $user = $this->get_user_data($params); 
+               
+          } else {
 
-          if (!empty($tweets->error)) {
-
-               $this->cache->library('rest', 'get', array('1/users/lookup.json', $params), -1);
+               $user = $this->cache->get("screen_name=" . $screen_name);
+               
+               if (!empty($user->error)) {
+                  
+                    $user = $this->get_user_data($params);
+                    
+               }; 
+               
           }
 
-          return $tweets;
+          return $user;
+     }
+
+     public function get_user_data($params) {
+
+          $data['user'] = $this->connection->get('users/show', $params);
+
+          $this->cache->write($data['user'], "screen_name=" . $this->session->userdata('twitter_screen_name'));
+          
+          return $data['user'];
      }
 
      public function library() {
 
           $this->load->spark('cache/2.0.0');
 
-          if ($this->cache->get($this->user) === 'FILE-UPLOAD-SUCCESS') {
-
-               $error = array("error" => "You can only upload your iTunes library once per hour." , 'success' => false);
-
-               echo json_encode($error);
-               
-               return false;
-          }
+//          if ($this->cache->get($this->user) === 'FILE-UPLOAD-SUCCESS') {
+//
+//               $error = array("error" => "You can only upload your iTunes library once per hour.", 'success' => false);
+//
+//               echo json_encode($error);
+//
+//               return false;
+//          }
 
           $this->load->helper('url');
 
@@ -332,15 +349,15 @@ class Store extends CI_Controller {
 
           if (empty($_GET['qqfile'])) {
 
-               $error = array("error" => "There was an error in uploading this file or you are accessing this page in an unconventional way. "  , 'success' => false);
+               $error = array("error" => "There was an error in uploading this file or you are accessing this page in an unconventional way. ", 'success' => false);
 
                echo json_encode($error);
-               
+
                return false;
           };
 
           $path = file_get_contents("php://input", "r");
-          
+
           $artists = $this->parseItunes($path);
 
           $response['artists'] = array_keys($artists);
@@ -348,6 +365,8 @@ class Store extends CI_Controller {
           $response['success'] = 'true';
 
           echo json_encode($response);
+          
+          
      }
 
      private function parseItunes($path) {
@@ -419,37 +438,34 @@ class Store extends CI_Controller {
           echo json_encode($result);
      }
 
-     public function get_rate_limit($resource , $type) {
+     public function get_rate_limit($resource, $type) {
 
           $status = $this->connection->get('application/rate_limit_status');
-          
+
           switch ($type) {
-               
+
                case "list" :
-                    
+
                     $resources = $status->resources->lists;
-                    
+
                     break;
-               
+
                case "statuses" :
-                    
+
                     $resources = $status->resources->statuses;
-                    
+
                     break;
-               
-          }; 
-          
+          };
+
           if (!empty($resources->$resource->remaining)) {
-               
-               $remaining = $resources->$resource->remaining; 
-               
+
+               $remaining = $resources->$resource->remaining;
           }
-          
+
 
           if ($remaining <= 1) {
 
                return true;
-               
           } else {
 
                return false;
@@ -477,7 +493,7 @@ class Store extends CI_Controller {
           $params = array("results" => '29', 'api_key' => $this->config->item('echo_nest_key'), 'format' => 'json', 'start' => date('j') * 29);
 
           $hot = $this->rest->get("api/v4/artist/top_hottt", $params);
-          
+
           //var_dump($hot);
 
           foreach ($hot->response->artists as $artist) {
