@@ -1,3 +1,5 @@
+
+
 <header >
 
      <div class="row">
@@ -30,14 +32,16 @@
      <section id="side-panel" class='four columns '>
 
           <div  class=" panel " id='profile'>
+               
 
                <div class="user-data">
-
-                    <img src="<?php echo $user[0]->profile_image_url ?>" />
-
-                    <h5>Welcome<br />@<?php echo $user[0]->screen_name ?></h5>
                     
-               <h6 style="display: none" id="twitter-list-link" ><a href="https://twitter.com/#!/<?php echo $user[0]->screen_name ?>/<?php echo $user[0]->screen_name ?>-tweebop" target="_blank">- Your List on Twitter</a></h6>
+
+                    <img src="<?php echo $user->profile_image_url ?>" />
+
+                    <h5>Welcome<br />@<?php echo $user->screen_name ?></h5>
+                    
+               <h6 style="display: none" id="twitter-list-link" ><a href="https://twitter.com/#!/<?php echo $user->screen_name ?>/<?php echo $user->screen_name ?>-tweebop" target="_blank">- Your List on Twitter</a></h6>
                </div>
 
 
@@ -325,7 +329,7 @@
 
           <a class='toggle-tweets' ><img src="<%= profile_image_url %>" /></a>
 
-          <h6><a class='toggle-tweets' ><%= name %></a></h6><p><a class="action remove">X Clear</a></p>
+          <h6><a class='toggle-tweets' ><%= name %></a></h6><p><a class="action remove">X Remove</a></p>
 
      </div>
 
@@ -370,7 +374,7 @@
 
 </script>
 
-<input name="twitter-handle" id="twitter-handle" type="hidden" value="<?php echo $user[0]->screen_name ?>" />
+<input name="twitter-handle" id="twitter-handle" type="hidden" value="<?php echo $user->screen_name ?>" />
 
 <?php include_once 'footer-include.php' ?>
 
